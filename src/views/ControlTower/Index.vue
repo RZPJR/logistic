@@ -164,7 +164,7 @@
                             </div>
                         </div>
                         <div v-else>
-                            <div class="ma12 wp100">
+                            <div class="ma12 wp100" v-if="controlTower.data.items != ''">
                                 <v-row
                                     v-for="(item, index) in dataItems"
                                     :key="index"
@@ -221,7 +221,8 @@
                                                         </template>
                                                         <v-list class="bg-white">
                                                             <v-list-item
-                                                                :to="{ path: `/campaign/banner/detail/${item.id}` }"
+                                                                target="_blank"
+                                                                :to="{ path: `/logistic/control-tower/detail/${item.delivery_run_sheet.id}` }"
                                                                 data-unq="controlTower-button-detailDRSI"
                                                             >
                                                                 <v-list-item-content>
@@ -272,7 +273,7 @@
                                     </v-btn>
                                 </div>
                             </div>
-                            <!-- <div>
+                            <div v-else>
                                 <div class="d-flex justify-center">
                                     <v-col>
                                         <div class="box-col-ep -mt10 -ml15 -mr15">
@@ -280,7 +281,7 @@
                                         </div>
                                     </v-col>
                                 </div>
-                            </div> -->
+                            </div>
                         </div>
                     </div>
                 </v-col>

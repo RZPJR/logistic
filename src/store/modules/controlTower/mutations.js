@@ -16,12 +16,17 @@ const mutations = {
     },
     // get data Detail Control Tower
     setControlTowerDetail: function(state, payload) {
-        state.detail_controlTower.data.items = payload;
+        state.detail_control_tower.data.items = payload;
         return state;
     },
     // get data DRSI Detail Control Tower
     setCourierDetail: function(state, payload) {
-        state.detail_controlTower.data.dataDrs = payload;
+        state.detail_control_tower.data.dataDrs = payload;
+        return state;
+    },
+    // setting preload Detail Control Tower
+    setPreloadControlTowerDetail: function(state, payload) {
+        state.detail_control_tower.isLoadingDetail = payload;
         return state;
     },
 };
