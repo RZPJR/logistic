@@ -1,16 +1,14 @@
 const state = {
   // Control Tower Index
   control_tower_list: {
-    isLoadingListData: false,
-    isLoadingMaps: false,
+    isLoading_data: false,
+    isLoading_maps: false,
     filter: {
         search: '',
         filter: false,
         warehouse_id: '',
         vendor: null,
-        vendorDisabled: true,
         courier: null,
-        courierDisabled: true,
         status: 2.1,
         statuses: [
             {
@@ -26,8 +24,8 @@ const state = {
                 value: 3
             }
         ],
-        showData: 10,
-        loadData: 10,
+        show_data: 10,
+        load_data: 10,
         auto_refresh: 2,
         delivery_date: {
             model: '',
@@ -36,34 +34,32 @@ const state = {
         },
     },
     total_emergency: 0,
-    modelDialog: false,
-    isLoadingItems: false,
+    model_dialog: false,
     overlay: false,
-    cancelData: '',
-    mapOptions: {
-        options: {
+    cancel_data: '',
+    map_options: {
+        options: { // setting from plugin
             zoom: 10,
             maxZoom: 19,
             minZoom: 5,
             maxNativeZoom: 19
         },
-        warehouseLocation: {
+        warehouse_location: {
             lat: 0,
             lng: 0
         },
-        userLocation: {
+        user_location: {
             lat: 0,
             lng: 0
         },
-        clusterOptions: {
+        cluster_options: { // setting from plugin
             disableClusteringAtZoom: 20,
             maxClusterRadius: 50
             
         },
-        staticAnchor: [16, 37],
+        static_anchor: [16, 37],
     },
     data: {
-        drsi: [],
         items: [{
             total_sales_order: 0,
             completed_sales_order: 0,
@@ -90,36 +86,35 @@ const state = {
   },
   // control Tower Detail
   detail_control_tower: {
-    isLoadingDetailData: false,
-    errorMessages: '',
+    isLoading_data: false,
+    isLoading_maps: false,
+    error_messages: '',
     filter: {
-        showCounted: 1,
-        currentPage: 1,
-        disabledNext: false,
-        disabledPrev: false,
-        modelDialog: false,
-        cancelBulkDialog: false,
+        show_counted: 1,
+        current_page: 1,
+        disabled_next: false,
+        disabled_prev: false,
+        model_dialog: false,
+        cancel_bulk_dialog: false,
         overlay: false,
-        isLoadingItems: false,
-        loadingMaps: false,
-        detailDialog: false,
+        detail_dialog: false,
     },
-    mapOptions: {
-        userLocation: {
+    map_options: {
+        user_location: {
             lat: 0,
             lng: 0
         },
-        options: {
+        options: { // setting from plugin
             zoom: 10,
             maxZoom: 19,
             minZoom: 5,
             maxNativeZoom: 19
         },
-        clusterOptions: {
+        cluster_options: { // setting from plugin
             disableClusteringAtZoom: 20,
             maxClusterRadius: 50
         },
-        staticAnchor: [16, 37],
+        static_anchor: [16, 37],
     },
     data: {
         items: {
@@ -147,7 +142,7 @@ const state = {
         total_sales_order: '',
         total_return: '',
         total_self_pickup: '',
-        dataDrs: [{
+        data_drs: [{
             note: '',
             customer_latitude: 0,
             customer_longitude: 0,
@@ -178,13 +173,13 @@ const state = {
                 }
             },
         }],
-        cancelNoteBulk: '',
-        cancelData: '',
+        cancel_note_bulk: '',
+        cancel_note: '',
         note: {
             note: ''
         },
-        dataAuditLog: {},
-        detailSO: {
+        data_auditLog: {},
+        detail_so: {
             note: '',
             money_received: '',
             recipient_name: '',
@@ -225,13 +220,13 @@ const state = {
             delivery_run_return: {},
             postpone_delivery_log: {}
         },
-        postPonedDelivery: [{
+        postponed_delivery: [{
             postpone_reason: '',
             postpone_evidence: '',
             started_at: '',
             postponed_at: '',
         }],
-        deliveryReturn: [{
+        delivery_return: [{
             delivery_run_return_item: [{
                 return_evidence: '',
                 receive_qty: '',
