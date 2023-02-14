@@ -720,7 +720,7 @@
         },
         methods: {
             ...mapActions([
-                'fetchcontrol_tower_detail',
+                'fetchControlTowerDetail',
                 'fetchCourierDetail'
             ]),
             defaultData() { // default get data for DRS
