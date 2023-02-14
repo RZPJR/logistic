@@ -10,11 +10,41 @@ import vuetify from "./plugins/vuetify";
 import VueToast from 'vue-toast-notification';
 import 'vue-toast-notification/dist/theme-sugar.css';
 import '@mdi/font/css/materialdesignicons.css'
+// leaflet js for map
+import { LMap, LTileLayer, LMarker, LTooltip, LImageOverlay, LIcon, LPolygon, LPopup } from 'vue2-leaflet';
+import Vue2LeafletMarkerCluster from 'vue2-leaflet-markercluster';
+import "leaflet/dist/leaflet.css";
+import "leaflet.markercluster/dist/MarkerCluster.css";
+import "leaflet.markercluster/dist/MarkerCluster.Default.css";
+import './assets/custom/main.css';
+import { Icon } from 'leaflet';
+
+Vue.component('l-map', LMap);
+Vue.component('l-tile-layer', LTileLayer);
+Vue.component('l-marker', LMarker);
+Vue.component('l-tooltip', LTooltip);
+Vue.component('l-image-overlay', LImageOverlay);
+Vue.component('l-icon', LIcon);
+Vue.component('l-polygon', LPolygon);
+Vue.component('l-popup', LPopup);
+Vue.component('v-marker-cluster', Vue2LeafletMarkerCluster);
+
+delete Icon.Default.prototype._getIconUrl;
+Icon.Default.mergeOptions({
+    iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
+    iconUrl: require('leaflet/dist/images/marker-icon.png'),
+    shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
+});
 
 import { 
   SelectGlossary,
   DetailRowNew,
-  ConfirmationDialogNew
+  ConfirmationDialogNew,
+  SelectCourier,
+  SelectVendor,
+  SelectArea,
+  DisplayPhotoOverlay,
+  SelectWarehouse,
 } from "@vue-mf/global";
 import Vuetify from "vuetify/lib";
 Vue.use(require('vue-moment'));
@@ -42,6 +72,11 @@ Vue.mixin({
     SelectGlossary,
     DetailRowNew,
     ConfirmationDialogNew,
+    SelectCourier,
+    SelectVendor,
+    SelectArea,
+    DisplayPhotoOverlay,
+    SelectWarehouse,
   },
   data: function() {
     return {
@@ -433,6 +468,11 @@ Vue.mixin({
                 }
             }
             return ret
+        }
+    },
+    formatHumanDiff(val) {
+        if (val) {
+            return this.$moment(val).fromNow()
         }
     },
     formatTime(val) {
