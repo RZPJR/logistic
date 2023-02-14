@@ -46,10 +46,11 @@
                 <v-col cols="12" md="3">
                     <SelectArea 
                         :data-unq="`controlTower-filter-region`"
-                        @selected="areaSelected"
-                        :dense="true"
+                        @selected="siteSelected"
+                        :label="'Site'"
+                        :disabled="true"
                         :norequired="true"
-                        :aux_data="2"
+                        :dense="true"
                     ></SelectArea>
                 </v-col>
                 <v-col cols="12" md="3">
@@ -99,6 +100,7 @@
                         data-unq="controlTower-filter-vendor"
                         v-model="filter.vendor"
                         @selected="vendorSelected"
+                        :norequired="true"
                         :dense="true"
                     ></SelectVendor>
                 </v-col>
@@ -107,6 +109,7 @@
                         data-unq="controlTower-filter-courier"
                         v-model="filter.courier"
                         @selected="courierSelected"
+                        :norequired="true"
                         :dense="true"
                     ></SelectCourier>
                 </v-col>
@@ -173,7 +176,13 @@
                                         <div class="box-col-ep -mt10 -ml15 mr15">
                                             <v-row class="-mr30">
                                                 <v-col>
-                                                    {{item.delivery_run_sheet.code}}
+                                                    <router-link
+                                                        target="_blank"
+                                                        :to="{ path: `/logistic/control-tower/detail/${item.delivery_run_sheet.id}` }"
+                                                        data-unq="controlTower-button-detailDRSI"
+                                                    >
+                                                        {{item.delivery_run_sheet.code}}
+                                                    </router-link>
                                                 </v-col>
                                                 <v-col class="d-flex justify-end align-end">
                                                     <v-btn
@@ -286,7 +295,22 @@
                     </div>
                 </v-col>
                 <v-col cols="12" md="7">
+                    <div
+                        v-if="controlTower.isLoadingMaps"
+                        class="d-flex justify-center scroll-list"
+                    >
+                        <div class="mt15">
+                            <div class="text-center">
+                                <v-progress-circular
+                                    :size="20"
+                                    indeterminate
+                                    color="#50ABA3"
+                                />
+                            </div>
+                        </div>
+                    </div>
                     <l-map
+                        v-else
                         :options="mapOptions.options"
                         style="height: 500px; width: 100%"
                         :center="[
@@ -300,7 +324,6 @@
                         />
                         <v-marker-cluster
                             :options="mapOptions.clusterOptions"
-                            data-unq="marker-cluster-coba"
                         >
                             <l-marker
                                     v-for="(item, idx) in courier.couriers"
@@ -348,11 +371,11 @@
 </template>
 
 <script>
-    import Vue from 'vue';
     import { mapState, mapActions } from 'vuex';
     import emergencyIcon from '../../assets/img/emergency.png';
     import bikeIcon from '../../assets/img/motorcycle.png';
     import carIcon from '../../assets/img/car.png';
+    
     export default {
         name: "ControlTower",
         data() {
@@ -369,6 +392,14 @@
             this.fetchCourierList()
             this.getDate()
         },
+        mounted() {
+            let self = this
+            setInterval(function () {
+                if (self.filter.auto_refresh == 1) {
+                    self.fetchCourierList()
+                }
+            }, 60000)
+        },
         computed: {
             ...mapState({
                 controlTower: state => state.controlTower.control_tower_list,
@@ -377,7 +408,7 @@
                 courier: state => state.controlTower.control_tower_list.data.courier
             }),
             dataItems() {
-                return this.controlTower.data.items.slice(0, this.controlTower.filter.showData)
+                return this.controlTower.data.items.slice(0, this.filter.showData)
             }
         },
         methods: {
@@ -390,7 +421,7 @@
                     // get GPS position
                     navigator.geolocation.getCurrentPosition(pos => {
                         // set the user location
-                        this.controlTower.mapOptions.userLocation = {
+                        this.mapOptions.userLocation = {
                             lat: pos.coords.latitude,
                             lng: pos.coords.longitude
                         };
@@ -400,7 +431,7 @@
             getDate() { // get Default Data
                 var date = new Date();
                 var firstDay = new Date(Date.now() + ( 3600 * 1000 * 7));
-                var end = new Date(date.getFullYear(), date.getMonth()+1, 1);
+                var end = new Date(date.getFullYear(), date.getMonth() + 1, 1);
                 this.filter.delivery_date.value = [firstDay.toISOString().substr(0, 10), end.toISOString().substr(0, 10)]
                 this.fetchControlTowerList()
             },
@@ -410,7 +441,7 @@
             courierSelected(d) { // select courier
                 console.log(d,'ini select courier')
             },
-            areaSelected(d) { // select site
+            siteSelected(d) { // select site
                 console.log(d,'ini select area')
             }
         },

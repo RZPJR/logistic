@@ -1,7 +1,8 @@
 const state = {
   // Control Tower Index
   control_tower_list: {
-    isLoadingData: false,
+    isLoadingListData: false,
+    isLoadingMaps: false,
     filter: {
         search: '',
         filter: false,
@@ -89,7 +90,8 @@ const state = {
   },
   // control Tower Detail
   detail_control_tower: {
-    isLoadingDetail: false,
+    isLoadingDetailData: false,
+    errorMessages: '',
     filter: {
         showCounted: 1,
         currentPage: 1,
@@ -118,10 +120,6 @@ const state = {
             maxClusterRadius: 50
         },
         staticAnchor: [16, 37],
-        centerData: {
-            lat: 0,
-            lng: 0
-        },
     },
     data: {
         items: {
@@ -140,7 +138,9 @@ const state = {
                         }
                     }
                 }
-            }
+            },
+            starting_latitude: 0,
+            starting_longitude: 0,
         },
         start_time: '',
         finish_time: '',
@@ -152,6 +152,10 @@ const state = {
             customer_latitude: 0,
             customer_longitude: 0,
             status: '',
+            courier: {
+                latitude: 0,
+                longitude: 0,
+            },
             delivery_run_sheet: {
                 started_at: '',
                 finished_at: '',
@@ -174,16 +178,6 @@ const state = {
                 }
             },
         }],
-        courier: {
-            latitude: 0,
-            longitude: 0,
-            emergency_mode: 0,
-            vehicle_profiles: {
-                routing_profile: {
-                    value_name: ''
-                }
-            }
-        },
         cancelNoteBulk: '',
         cancelData: '',
         note: {
@@ -231,7 +225,7 @@ const state = {
             delivery_run_return: {},
             postpone_delivery_log: {}
         },
-        postPoneDelivery: [{
+        postPonedDelivery: [{
             postpone_reason: '',
             postpone_evidence: '',
             started_at: '',
@@ -256,7 +250,6 @@ const state = {
             total_charge: '',
             total_price: '',
         }],
-        error: ''
     },
     table_headers: {
         table_postpone: [

@@ -11,7 +11,12 @@ const mutations = {
     },
     // setting preload Index Control Tower
     setPreloadControlTowerList: function(state, payload) {
-        state.control_tower_list.isLoadingData = payload;
+        state.control_tower_list.isLoadingListData = payload;
+        return state;
+    },
+    // setting preload Maps Index Control Tower
+    setPreloadControlTowerMaps: function(state, payload) {
+        state.control_tower_list.isLoadingMaps = payload;
         return state;
     },
     // get data Detail Control Tower
@@ -26,9 +31,19 @@ const mutations = {
     },
     // setting preload Detail Control Tower
     setPreloadControlTowerDetail: function(state, payload) {
-        state.detail_control_tower.isLoadingDetail = payload;
+        state.detail_control_tower.isLoadingDetailData = payload;
         return state;
     },
+    // setting preload Maps Detail Control Tower
+    setPreloadControlTowerMaps: function(state, payload) {
+        state.detail_control_tower.isLoadingMaps = payload;
+        return state;
+    },
+    // error message for Maps Detail Control Tower
+    setErrorMessage: function(state, payload) {
+        state.detail_control_tower.errorMessages = payload;
+        return state;
+    }
 };
 
 export default mutations;

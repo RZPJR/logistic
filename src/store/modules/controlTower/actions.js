@@ -38,23 +38,23 @@ const actions = {
     },
     // Courier List for Map (Control Tower)
     fetchCourierList: async ({ state, commit, dispatch }, payload) => {
-        commit('setPreloadControlTowerList', true);
+        commit('setPreloadControlTowerMaps', true);
         let data = {
             "site_id" : 1
         }
         try {
             const response = await http.post("/control_tower", data);
             if (response.data.data) commit('setCourierList', response.data.data);
-            commit('setPreloadControlTowerList', false);
+            commit('setPreloadControlTowerMaps', false);
         } catch (error) {
-            commit('setPreloadControlTowerList', false);
+            commit('setPreloadControlTowerMaps', false);
         }
     },
     // Detail Control Tower (Data Courier)
     fetchControlTowerDetail: async ({ state, commit, dispatch }, payload) => {
         commit('setPreloadControlTowerDetail', true);
         try {
-            const response = await http.get("/control_tower/" + payload.id,{});
+            const response = await http.get("/control_tower/" + payload.id);
             if (response.data.data) commit('setControlTowerDetail', response.data.data);
             commit('setPreloadControlTowerDetail', false);
         } catch (error) {
@@ -65,12 +65,12 @@ const actions = {
     fetchCourierDetail: async ({ state, commit, dispatch }, payload) => {
         commit('setPreloadControlTowerDetail', true);
         try {
-            const response = await http.post("/control_tower/" + payload.id);
-            if (response.data.data) commit('setControlTowerDetail', response.data.data);
-            console.log(response.data.data,'masuk nih datanya')
+            const response = await http.post("/control_tower/" + payload.id,{});
+            if (response.data.data) commit('setCourierDetail', response.data.data);
             commit('setPreloadControlTowerDetail', false);
         } catch (error) {
             commit('setPreloadControlTowerDetail', false);
+            commit('setErrorMessage', error)
         }
     }
 };

@@ -43,6 +43,8 @@ import {
   SelectCourier,
   SelectVendor,
   SelectArea,
+  DisplayPhotoOverlay,
+  SelectWarehouse,
 } from "@vue-mf/global";
 import Vuetify from "vuetify/lib";
 Vue.use(require('vue-moment'));
@@ -73,6 +75,8 @@ Vue.mixin({
     SelectCourier,
     SelectVendor,
     SelectArea,
+    DisplayPhotoOverlay,
+    SelectWarehouse,
   },
   data: function() {
     return {
