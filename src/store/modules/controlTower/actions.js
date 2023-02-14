@@ -63,13 +63,13 @@ const actions = {
     },
     // Detail Courier in Detail Control Tower
     fetchCourierDetail: async ({ state, commit, dispatch }, payload) => {
-        commit('setPreloadControlTowerDetail', true);
+        commit('setPreloadControlTowerMaps', true);
         try {
             const response = await http.post("/control_tower/" + payload.id,{});
             if (response.data.data) commit('setCourierDetail', response.data.data);
-            commit('setPreloadControlTowerDetail', false);
+            commit('setPreloadControlTowerMaps', false);
         } catch (error) {
-            commit('setPreloadControlTowerDetail', false);
+            commit('setPreloadControlTowerMaps', false);
             commit('setErrorMessage', error)
         }
     }

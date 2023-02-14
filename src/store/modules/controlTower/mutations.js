@@ -11,12 +11,12 @@ const mutations = {
     },
     // setting preload Index Control Tower
     setPreloadControlTowerList: function(state, payload) {
-        state.control_tower_list.isLoadingListData = payload;
+        state.control_tower_list.loading_data = payload;
         return state;
     },
     // setting preload Maps Index Control Tower
     setPreloadControlTowerMaps: function(state, payload) {
-        state.control_tower_list.isLoadingMaps = payload;
+        state.control_tower_list.loading_maps = payload;
         return state;
     },
     // get data Detail Control Tower
@@ -26,22 +26,22 @@ const mutations = {
     },
     // get data DRSI Detail Control Tower
     setCourierDetail: function(state, payload) {
-        state.detail_control_tower.data.dataDrs = payload;
+        state.detail_control_tower.data.data_drs = payload;
         return state;
     },
     // setting preload Detail Control Tower
     setPreloadControlTowerDetail: function(state, payload) {
-        state.detail_control_tower.isLoadingDetailData = payload;
+        state.detail_control_tower.loading_data = payload;
         return state;
     },
     // setting preload Maps Detail Control Tower
     setPreloadControlTowerMaps: function(state, payload) {
-        state.detail_control_tower.isLoadingMaps = payload;
+        state.detail_control_tower.loading_maps = payload;
         return state;
     },
     // error message for Maps Detail Control Tower
     setErrorMessage: function(state, payload) {
-        state.detail_control_tower.errorMessages = payload;
+        state.detail_control_tower.error_messages = payload;
         return state;
     }
 };

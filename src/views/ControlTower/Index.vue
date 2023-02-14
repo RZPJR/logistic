@@ -154,7 +154,7 @@
                 <v-col cols="12" md="5">
                     <div class="scroll-list">
                         <div
-                            v-if="controlTower.isLoadingData"
+                            v-if="control_tower_list.loading_data"
                             class="d-flex justify-center"
                         >
                             <div class="mt15">
@@ -168,7 +168,7 @@
                             </div>
                         </div>
                         <div v-else>
-                            <div class="ma12 wp100" v-if="controlTower.data.items != ''">
+                            <div class="ma12 wp100" v-if="control_tower_list.data.items != ''">
                                 <v-row
                                     v-for="(item, index) in dataItems"
                                     :key="index"
@@ -275,8 +275,8 @@
                                 <div class="d-flex justify-center mr25 mt20">
                                     <v-btn
                                         data-unq="controlTower-button-showMoreData"
-                                        @click="filter.showData += filter.loadData"
-                                        v-if="filter.showData < controlTower.data.items.length"
+                                        @click="filter.show_data += filter.load_data"
+                                        v-if="filter.show_data < control_tower_list.data.items.length"
                                         class="no-caps fs12 white--text"
                                         rounded
                                         depressed
@@ -300,7 +300,7 @@
                 </v-col>
                 <v-col cols="12" md="7">
                     <div
-                        v-if="controlTower.isLoadingMaps"
+                        v-if="control_tower_list.loading_maps"
                         class="d-flex justify-center scroll-list"
                     >
                         <div class="mt15">
@@ -315,19 +315,19 @@
                     </div>
                     <l-map
                         v-else
-                        :options="mapOptions.options"
+                        :options="map_options.options"
                         style="height: 500px; width: 100%"
                         :center="[
-                            mapOptions.warehouseLocation.lat || mapOptions.userLocation.lat,
-                            mapOptions.warehouseLocation.lng || mapOptions.userLocation.lng
+                            map_options.warehouse_location.lat || map_options.user_location.lat,
+                            map_options.warehouse_location.lng || map_options.user_location.lng
                         ]"
                     >
                         <l-tile-layer
-                            :options="mapOptions.options"
+                            :options="map_options.options"
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                         />
                         <v-marker-cluster
-                            :options="mapOptions.clusterOptions"
+                            :options="map_options.cluster_options"
                         >
                             <l-marker
                                     v-for="(item, idx) in courier.couriers"
@@ -341,19 +341,19 @@
                                 >
                                     <l-icon
                                         :icon-size="[30, 40]"
-                                        :icon-anchor="mapOptions.staticAnchor"
+                                        :icon-anchor="map_options.static_anchor"
                                         :icon-url="emergencyIcon"
                                         v-if="item.emergency_mode == 1 && item.latitude && item.longitude"
                                     ></l-icon>
                                     <l-icon
                                         :icon-size="[25, 40]"
-                                        :icon-anchor="mapOptions.staticAnchor"
+                                        :icon-anchor="map_options.static_anchor"
                                         :icon-url="carIcon"
                                         v-if="item.emergency_mode == 2 && item.vehicle_profiles.routing_profile.value_name == 'car' && item.latitude && item.longitude"
                                     ></l-icon>
                                     <l-icon
                                         :icon-size="[30, 40]"
-                                        :icon-anchor="mapOptions.staticAnchor"
+                                        :icon-anchor="map_options.static_anchor"
                                         :icon-url="bikeIcon"
                                         v-if="item.emergency_mode == 2 && item.vehicle_profiles.routing_profile.value_name == 'bike' && item.latitude && item.longitude"
                                     ></l-icon>
@@ -406,13 +406,13 @@
         },
         computed: {
             ...mapState({
-                controlTower: state => state.controlTower.control_tower_list,
+                control_tower_list: state => state.controlTower.control_tower_list,
                 filter: state => state.controlTower.control_tower_list.filter,
-                mapOptions: state => state.controlTower.control_tower_list.mapOptions,
+                map_options: state => state.controlTower.control_tower_list.map_options,
                 courier: state => state.controlTower.control_tower_list.data.courier
             }),
             dataItems() {
-                return this.controlTower.data.items.slice(0, this.filter.showData)
+                return this.control_tower_list.data.items.slice(0, this.filter.show_data)
             }
         },
         methods: {
@@ -425,7 +425,7 @@
                     // get GPS position
                     navigator.geolocation.getCurrentPosition(pos => {
                         // set the user location
-                        this.mapOptions.userLocation = {
+                        this.map_options.user_location = {
                             lat: pos.coords.latitude,
                             lng: pos.coords.longitude
                         };
