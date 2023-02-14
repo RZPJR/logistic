@@ -132,7 +132,7 @@
                     <div class="scroll-list">
                         <div
                             class="d-flex justify-center"
-                            v-if="control_tower_detail.isLoading_data"
+                            v-if="control_tower_detail.loading_data"
                         >
                             <div class="mt15">
                                 <div class="text-center">
@@ -328,7 +328,7 @@
                 <v-col cols="12" md="7">
                     <div
                         class="d-flex justify-center scroll-list fill-height"
-                        v-if="control_tower_detail.isLoading_maps"
+                        v-if="control_tower_detail.loading_maps"
                     >
                         <div class="mt15">
                             <div class="text-center">

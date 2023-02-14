@@ -154,7 +154,7 @@
                 <v-col cols="12" md="5">
                     <div class="scroll-list">
                         <div
-                            v-if="control_tower_list.isLoading_data"
+                            v-if="control_tower_list.loading_data"
                             class="d-flex justify-center"
                         >
                             <div class="mt15">
@@ -300,7 +300,7 @@
                 </v-col>
                 <v-col cols="12" md="7">
                     <div
-                        v-if="control_tower_list.isLoading_maps"
+                        v-if="control_tower_list.loading_maps"
                         class="d-flex justify-center scroll-list"
                     >
                         <div class="mt15">

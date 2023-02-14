@@ -1,8 +1,8 @@
 const state = {
   // Control Tower Index
   control_tower_list: {
-    isLoading_data: false,
-    isLoading_maps: false,
+    loading_data: false,
+    loading_maps: false,
     filter: {
         search: '',
         filter: false,
@@ -86,8 +86,8 @@ const state = {
   },
   // control Tower Detail
   detail_control_tower: {
-    isLoading_data: false,
-    isLoading_maps: false,
+    loading_data: false,
+    loading_maps: false,
     error_messages: '',
     filter: {
         show_counted: 1,
