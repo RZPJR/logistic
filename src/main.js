@@ -36,16 +36,7 @@ Icon.Default.mergeOptions({
     shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
 });
 
-import { 
-  SelectGlossary,
-  DetailRowNew,
-  ConfirmationDialogNew,
-  SelectCourier,
-  SelectVendor,
-  SelectArea,
-  DisplayPhotoOverlay,
-  SelectWarehouse,
-} from "@vue-mf/global";
+import { Components } from "@vue-mf/global";
 import Vuetify from "vuetify/lib";
 Vue.use(require('vue-moment'));
 
@@ -68,16 +59,7 @@ Vue.directive('privilege', {
 })
 
 Vue.mixin({
-  components: { 
-    SelectGlossary,
-    DetailRowNew,
-    ConfirmationDialogNew,
-    SelectCourier,
-    SelectVendor,
-    SelectArea,
-    DisplayPhotoOverlay,
-    SelectWarehouse,
-  },
+  components: Components,
   data: function() {
     return {
       status: [
