@@ -86,6 +86,7 @@
                         >
                             <v-spacer></v-spacer>
                             <v-btn
+                                data-unq="controlTower-filter-setDeliveryDate"
                                 text
                                 color="primary"
                                 @click="filter.delivery_date.model = false, fetchControlTowerList()"
@@ -187,6 +188,7 @@
                                                 <v-col class="d-flex justify-end align-end">
                                                     <v-btn
                                                         v-if="item.delivery_run_sheet.status == 1"
+                                                        data-unq="controlTower-value-statusNew"
                                                         elevation="0"
                                                         rounded
                                                         depressed
@@ -198,6 +200,7 @@
                                                     </v-btn>
                                                     <v-btn
                                                         v-if="item.delivery_run_sheet.status == 2"
+                                                        data-unq="controlTower-value-statusOnProgress"
                                                         elevation="0"
                                                         rounded
                                                         depressed
@@ -209,6 +212,7 @@
                                                     </v-btn>
                                                     <v-btn
                                                         v-if="item.delivery_run_sheet.status == 3"
+                                                        data-unq="controlTower-value-statusFinished"
                                                         elevation="0"
                                                         rounded
                                                         depressed
@@ -249,19 +253,19 @@
                                                 <v-col cols="6" class="-mt15">
                                                     Courier:
                                                 </v-col>
-                                                <v-col class="d-flex justify-end align-end -mt15">
+                                                <v-col data-unq="controlTower-value-courier" class="d-flex justify-end align-end -mt15">
                                                     {{item.courier.code}} - {{ item.courier.name }}
                                                 </v-col>
                                                 <v-col cols="6" class="-mt24">
                                                     Total SO:
                                                 </v-col>
-                                                <v-col class="d-flex justify-end align-end -mt24">
+                                                <v-col data-unq="controlTower-value-totalSO" class="d-flex justify-end align-end -mt24">
                                                     {{item.completed_sales_order}} / {{item.total_sales_order}}
                                                 </v-col>
                                                 <v-col cols="6" class="-mt24">
                                                     Delivery Date:
                                                 </v-col>
-                                                <!-- <v-col class="d-flex justify-end align-end -mt24">
+                                                <!-- <v-col data-unq="controlTower-value-deliveryDate" class="d-flex justify-end align-end -mt24">
                                                     {{ formatDate(item.sales_order.delivery_date) }}
                                                 </v-col> -->
                                             </v-row>
