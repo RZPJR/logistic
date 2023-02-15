@@ -1,9 +1,10 @@
-import axios from "axios";
+import Vue from 'vue';
 import http from "../../../services/http";
 
 const actions = {
     // DRS List (Control Tower)
     fetchControlTowerList: async ({ state, commit, dispatch }, payload) => {
+        commit('setControlTowerList', [])
         commit('setPreloadControlTowerList', true);
         try {
             // let status = state.controlTower.filter.status === 999 ? '' : state.controlTower.filter.status
@@ -38,16 +39,17 @@ const actions = {
     },
     // Courier List for Map (Control Tower)
     fetchCourierList: async ({ state, commit, dispatch }, payload) => {
-        commit('setPreloadControlTowerMaps', true);
+        commit('setCourierList', [])
+        commit('setPreloadControlTowerMapsList', true);
         let data = {
             "site_id" : 1
         }
         try {
             const response = await http.post("/control_tower", data);
             if (response.data.data) commit('setCourierList', response.data.data);
-            commit('setPreloadControlTowerMaps', false);
+            commit('setPreloadControlTowerMapsList', false);
         } catch (error) {
-            commit('setPreloadControlTowerMaps', false);
+            commit('setPreloadControlTowerMapsList', false);
         }
     },
     // Detail Control Tower (Data Courier)
@@ -71,6 +73,56 @@ const actions = {
         } catch (error) {
             commit('setPreloadControlTowerMaps', false);
             commit('setErrorMessage', error)
+        }
+    },
+    // Cancel DRSI
+    cancelDrsi: async ({ state, commit, dispatch }, payload) => {
+        commit('setPreloadControlTowerDetail', true)
+        commit('setPreloadControlTowerMaps', true)
+        try {
+            await http.put("/control_tower/cancel/item/" + state.detail_control_tower.data.cancel_item.id, {
+                note: state.detail_control_tower.data.cancel_item.note
+            }).then(response => {
+                Vue.$toast.open({
+                    position: 'top-right',
+                    message: 'Data has been canceled successfully',
+                    type: 'success',
+                });
+                commit('setCancelId', 0)
+                commit('setCancelNote', '')
+                commit('setShowCancelModal', false)
+                commit('setPreloadControlTowerDetail', false)
+                commit('setPreloadControlTowerMaps', false)
+            })
+        } catch (error) {
+            commit('setShowCancelModal', false)
+            commit('setPreloadControlTowerDetail', false)
+            commit('setPreloadControlTowerMaps', false)
+        }
+    },
+    // Cancel BULK DRSI
+    cancelBulkDrsi: async ({ state, commit, dispatch }, payload) => {
+        commit('setPreloadControlTowerDetail', true)
+        commit('setPreloadControlTowerMaps', true)
+        try {
+            await http.put("/control_tower/cancel/" + state.detail_control_tower.data.cancel_bulk.id, {
+                note: state.detail_control_tower.data.cancel_bulk.note
+            }).then(response => {
+                Vue.$toast.open({
+                    position: 'top-right',
+                    message: 'Data has been canceled successfully',
+                    type: 'success',
+                });
+                commit('setCancelBulkId', 0)
+                commit('setCancelBulkNote', '')
+                commit('setShowCancelBulkModal', false)
+                commit('setPreloadControlTowerDetail', false)
+                commit('setPreloadControlTowerMaps', false)
+            })
+        } catch (error) {
+            commit('setShowCancelBulkModal', false)
+            commit('setPreloadControlTowerDetail', false)
+            commit('setPreloadControlTowerMaps', false)
         }
     }
 };

@@ -44,14 +44,13 @@
             </v-row>
             <v-row v-if="showFilter">
                 <v-col cols="12" md="3">
-                    <SelectArea 
-                        :data-unq="`controlTower-filter-region`"
+                    <SelectWarehouse 
+                        :data-unq="`controlTower-filter-site`"
                         @selected="siteSelected"
                         :label="'Site'"
-                        :disabled="true"
                         :norequired="true"
                         :dense="true"
-                    ></SelectArea>
+                    ></SelectWarehouse>
                 </v-col>
                 <v-col cols="12" md="3">
                     <v-menu
@@ -154,7 +153,7 @@
                 <v-col cols="12" md="5">
                     <div class="scroll-list">
                         <div
-                            v-if="control_tower_list.loading_data"
+                            v-if="control_tower_list.isLoadingData"
                             class="d-flex justify-center"
                         >
                             <div class="mt15">
@@ -265,9 +264,9 @@
                                                 <v-col cols="6" class="-mt24">
                                                     Delivery Date:
                                                 </v-col>
-                                                <!-- <v-col data-unq="controlTower-value-deliveryDate" class="d-flex justify-end align-end -mt24">
-                                                    {{ formatDate(item.sales_order.delivery_date) }}
-                                                </v-col> -->
+                                                <v-col data-unq="controlTower-value-deliveryDate" class="d-flex justify-end align-end -mt24">
+                                                    {{ formatDate(item.delivery_run_sheet.delivery_date) }}
+                                                </v-col>
                                             </v-row>
                                         </div>
                                     </v-col>
@@ -300,7 +299,7 @@
                 </v-col>
                 <v-col cols="12" md="7">
                     <div
-                        v-if="control_tower_list.loading_maps"
+                        v-if="control_tower_list.isLoadingMaps"
                         class="d-flex justify-center scroll-list"
                     >
                         <div class="mt15">
@@ -330,7 +329,7 @@
                             :options="map_options.cluster_options"
                         >
                             <l-marker
-                                    v-for="(item, idx) in courier.couriers"
+                                    v-for="(item, idx) in courier.courier"
                                     :key="idx"
                                     :visible="true"
                                     :draggable="false"
