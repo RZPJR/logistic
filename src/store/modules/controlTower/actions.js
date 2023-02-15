@@ -85,7 +85,7 @@ const actions = {
             }).then(response => {
                 Vue.$toast.open({
                     position: 'top-right',
-                    message: 'Data has been archived successfully',
+                    message: 'Data has been canceled successfully',
                     type: 'success',
                 });
                 commit('setCancelId', 0)
@@ -110,7 +110,7 @@ const actions = {
             }).then(response => {
                 Vue.$toast.open({
                     position: 'top-right',
-                    message: 'Data has been archived successfully',
+                    message: 'Data has been canceled successfully',
                     type: 'success',
                 });
                 commit('setCancelBulkId', 0)
