@@ -40,16 +40,16 @@ const actions = {
     // Courier List for Map (Control Tower)
     fetchCourierList: async ({ state, commit, dispatch }, payload) => {
         commit('setCourierList', [])
-        commit('setPreloadControlTowerMaps', true);
+        commit('setPreloadControlTowerMapsList', true);
         let data = {
             "site_id" : 1
         }
         try {
             const response = await http.post("/control_tower", data);
             if (response.data.data) commit('setCourierList', response.data.data);
-            commit('setPreloadControlTowerMaps', false);
+            commit('setPreloadControlTowerMapsList', false);
         } catch (error) {
-            commit('setPreloadControlTowerMaps', false);
+            commit('setPreloadControlTowerMapsList', false);
         }
     },
     // Detail Control Tower (Data Courier)

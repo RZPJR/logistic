@@ -12,7 +12,7 @@ const mutations = {
         state.control_tower_list.isLoadingData = payload;
         return state;
     },
-    setPreloadControlTowerMaps: function(state, payload) { // setting preload Maps Index Control Tower
+    setPreloadControlTowerMapsList: function(state, payload) { // setting preload Maps Index Control Tower
         state.control_tower_list.isLoadingMaps = payload;
         return state;
     },

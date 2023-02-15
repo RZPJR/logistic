@@ -971,10 +971,12 @@
                 this.checkPage()
             },
             cancelBulkModal(handler, id) { // handling cancel bulk DRSI modal
+                this.data.cancel_bulk.note = ''
                 this.$store.commit('setShowCancelBulkModal', handler)
                 this.$store.commit('setCancelBulkId', 1)
             },
             cancelNoteModal(handler, id) { // handling cancel DRSI modal
+                this.data.cancel_item.note = ''
                 this.$store.commit('setShowCancelModal', handler)
                 if (id) {
                     this.$store.commit('setCancelId', id)
