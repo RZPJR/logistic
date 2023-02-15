@@ -264,9 +264,9 @@
                                                 <v-col cols="6" class="-mt24">
                                                     Delivery Date:
                                                 </v-col>
-                                                <!-- <v-col data-unq="controlTower-value-deliveryDate" class="d-flex justify-end align-end -mt24">
-                                                    {{ formatDate(item.sales_order.delivery_date) }}
-                                                </v-col> -->
+                                                <v-col data-unq="controlTower-value-deliveryDate" class="d-flex justify-end align-end -mt24">
+                                                    {{ formatDate(item.delivery_run_sheet.delivery_date) }}
+                                                </v-col>
                                             </v-row>
                                         </div>
                                     </v-col>
