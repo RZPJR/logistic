@@ -141,12 +141,11 @@ const state = {
         total_sales_order: '',
         total_return: '',
         total_self_pickup: '',
-        data_drs: [{
+        data_drs: {
             note: '',
-            customer_latitude: 0,
-            customer_longitude: 0,
             status: '',
             courier: {
+                emergency_mode: 0,
                 latitude: 0,
                 longitude: 0,
             },
@@ -169,11 +168,14 @@ const state = {
                 },
                 order_type: {
                     name: ''
-                }
+                },
+                customer_latitude: 0,
+                customer_longitude: 0,
             },
-        }],
+        },
         cancel_bulk: {
             note: '',
+            show_cancel_bulk_modal: false,
             success: false,
             error: {}
         },

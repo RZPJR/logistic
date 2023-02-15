@@ -50,10 +50,16 @@
                             </v-btn>
                         </template>
                         <v-list class="bg-white">
-                            <v-list-item data-unq="controlTower-button-historyLog">
+                            <v-list-item data-unq="controlTower-button-historyLog" >
                                 <v-list-item-content>History</v-list-item-content>
                             </v-list-item>
-                            <v-list-item data-unq="controlTower-button-cancelDrsi">
+                            <div>
+                                <hr />
+                            </div>
+                            <v-list-item
+                                data-unq="controlTower-button-cancelDrsi"
+                                @click="cancelBulkModal(true, data.items.id)"
+                            >
                                 <v-list-item-content>Cancel</v-list-item-content>
                             </v-list-item>
                         </v-list>
@@ -495,6 +501,52 @@
             </v-row>
         </div>
         <v-dialog
+            v-model="data.cancel_bulk.show_cancel_bulk_modal"
+            persistent
+            max-width="470px"
+        >
+            <v-card class="OpenSans">
+                <v-card-title>
+                    <span class="text-title-modal">Cancel Delivery Run Sheet</span>
+                </v-card-title>
+                <v-card-text>
+                    <span class="fs16 mt-1">Why was this delivery run sheet cancelled?</span>
+                    <v-textarea
+                        name="note"
+                        v-model="data.cancel_bulk.note"
+                        :counter="100"
+                        outlined
+                        required
+                        maxlength="100"
+                        class="mt-6"
+                        rows="3"
+                    >
+                        <template v-slot:label>
+                            Note<span style="color:red">*</span>
+                        </template>
+                    </v-textarea>
+                </v-card-text>
+                <v-card-actions class="pb-4">
+                    <v-spacer></v-spacer>
+                    <v-btn
+                        @click="cancelBulkModal(false)"
+                        depressed
+                        outlined
+                        color="#EBEBEB"
+                        class="main-btn"
+                    >
+                        <span class="text-black80">Cancel</span>
+                    </v-btn>
+                    <v-btn
+                        class="main-btn white--text"
+                        depressed
+                        color="#50ABA3"
+                        @click="cancelBulkDrsi()"
+                    >Save</v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+        <v-dialog
             v-model="data.cancel_item.show_cancel_modal"
             persistent
             max-width="470px"
@@ -644,7 +696,7 @@
                 <v-card-text>
                     <v-row>
                         <v-col cols="12" class="-mt24">
-                            <DetailRowNew :name="'Merchant'" :value="data.detail_so.sales_order.merchant_name ? detail_so.sales_order.merchant_name : '-'"/>
+                            <DetailRowNew :name="'Merchant'" :value="data.detail_so.sales_order.customer_name"/>
                         </v-col>
                         <v-col cols="12" md="4" class="-mt24 mb10">
                             <v-row class="-mb1">
@@ -657,7 +709,7 @@
                                             v-bind:href="'https://wa.me/62' + data.detail_so.sales_order.address_phone_number + '?text=EdenFarm%0A%0AHai%2C%20kurir%20anda%20sedang%20dalam%20perjalanan%20untuk%20mengantar%20pesanan%20anda.%20Mohon%20ditunggu%20ya'"
                                             target="_blank"
                                         >
-                                            +62{{data.detail_so.sales_order.address_phone_number ? data.detail_so.sales_order.address_phone_number : '-'}}
+                                            +62{{ data.detail_so.sales_order.address_phone_number }}
                                         </a>
                                         <v-img 
                                             src="/img/whatsapp-icon.svg"
@@ -883,7 +935,8 @@
             ...mapActions([
                 'fetchControlTowerDetail',
                 'fetchCourierDetail',
-                'cancelDrsi'
+                'cancelDrsi',
+                'cancelBulkDrsi'
             ]),
             defaultData() { // default get data for DRS
                 this.data.data_drs.delivery_run_sheet_item.slice(0, this.filter.show_counted)
@@ -917,11 +970,15 @@
                 this.data.detail_so = this.data.data_drs.delivery_run_sheet_item.slice(this.filter.show_counted * this.filter.current_page - this.filter.show_counted, this.filter.show_counted * this.filter.current_page)[0]
                 this.checkPage()
             },
+            cancelBulkModal(handler, id) { // handling cancel bulk DRSI modal
+                this.$store.commit('setShowCancelBulkModal', handler)
+                    this.$store.commit('setCancelBulkId', 1)
+            },
             cancelNoteModal(handler, id) { // handling cancel DRSI modal
                 this.$store.commit('setShowCancelModal', handler)
-                this.$store.commit('setCancelId', 1)
-                // if (id) {
-                // }
+                if (id) {
+                    this.$store.commit('setCancelId', id)
+                }
             }
         },
     }

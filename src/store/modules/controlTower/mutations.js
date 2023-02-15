@@ -38,20 +38,36 @@ const mutations = {
         state.detail_control_tower.error_messages = payload;
         return state;
     },
-    setCancelId: function(state, payload) {
+    setCancelId: function(state, payload) { // set id for cancel DRSI
         state.detail_control_tower.data.cancel_item.id = payload;
         return state;
     },
-    setCancelNote: function(state, payload) { // Note for DRSI
+    setCancelNote: function(state, payload) { // Note for cancel DRSI
         state.detail_control_tower.data.cancel_item.note = payload;
         return state;
     },
-    setCancelSuccess: function(state, payload) { // success message for DRSI
+    setCancelSuccess: function(state, payload) { // success message for cancel DRSI
         state.detail_control_tower.data.cancel_item.success = payload;
         return state;
     },
-    setShowCancelModal: function(state, payload) {
+    setShowCancelModal: function(state, payload) { // show cancel modal dialog
         state.detail_control_tower.data.cancel_item.show_cancel_modal = payload;
+        return state;
+    },
+    setCancelBulkId: function(state, payload) { // set id for cancel bulk DRSI
+        state.detail_control_tower.data.cancel_bulk.id = payload;
+        return state;
+    },
+    setCancelBulkNote: function(state, payload) { // Note for cancel bulk DRSI
+        state.detail_control_tower.data.cancel_bulk.note = payload;
+        return state;
+    },
+    setCancelBulkSuccess: function(state, payload) { // success message for cancel DRSI
+        state.detail_control_tower.data.cancel_bulk.success = payload;
+        return state;
+    },
+    setShowCancelBulkModal: function(state, payload) { // show cancel bulk modal dialog
+        state.detail_control_tower.data.cancel_bulk.show_cancel_bulk_modal = payload;
         return state;
     }
 };

@@ -95,7 +95,34 @@ const actions = {
                 commit('setPreloadControlTowerMaps', false)
             })
         } catch (error) {
-            console.log(error)
+            commit('setShowCancelModal', false)
+            commit('setPreloadControlTowerDetail', false)
+            commit('setPreloadControlTowerMaps', false)
+        }
+    },
+    // Cancel BULK DRSI
+    cancelBulkDrsi: async ({ state, commit, dispatch }, payload) => {
+        commit('setPreloadControlTowerDetail', true)
+        commit('setPreloadControlTowerMaps', true)
+        try {
+            await http.put("/control_tower/cancel/" + state.detail_control_tower.data.cancel_bulk.id, {
+                note: state.detail_control_tower.data.cancel_bulk.note
+            }).then(response => {
+                Vue.$toast.open({
+                    position: 'top-right',
+                    message: 'Data has been archived successfully',
+                    type: 'success',
+                });
+                commit('setCancelBulkId', 0)
+                commit('setCancelBulkNote', '')
+                commit('setShowCancelBulkModal', false)
+                commit('setPreloadControlTowerDetail', false)
+                commit('setPreloadControlTowerMaps', false)
+            })
+        } catch (error) {
+            commit('setShowCancelBulkModal', false)
+            commit('setPreloadControlTowerDetail', false)
+            commit('setPreloadControlTowerMaps', false)
         }
     }
 };
