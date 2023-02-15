@@ -132,7 +132,7 @@
                     <div class="scroll-list">
                         <div
                             class="d-flex justify-center"
-                            v-if="control_tower_detail.loading_data"
+                            v-if="control_tower_detail.isLoadingData"
                         >
                             <div class="mt15">
                                 <div class="text-center">
@@ -260,6 +260,7 @@
                                                         <v-list-item
                                                             v-if="item.status != 3 && item.status != 5"
                                                             data-unq="controlTower-button-cancelDrsi"
+                                                            @click="cancelNoteModal(true, item.id)"
                                                         >
                                                             <v-list-item-content>
                                                                 <v-list-item-title>Cancel</v-list-item-title>
@@ -328,7 +329,7 @@
                 <v-col cols="12" md="7">
                     <div
                         class="d-flex justify-center scroll-list fill-height"
-                        v-if="control_tower_detail.loading_maps"
+                        v-if="control_tower_detail.isLoadingMaps"
                     >
                         <div class="mt15">
                             <div class="text-center">
@@ -365,6 +366,88 @@
                                 :options="map_options.options"
                                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                             />
+                            <v-marker-cluster
+                                :options="map_options.cluster_options"
+                            >
+                                <div
+                                    v-for="(item, idx) in data.data_drs.delivery_run_sheet_item"
+                                    :key="idx"
+                                >
+                                <!-- FOR CUSTOMER PIN POINT -->
+                                    <l-marker
+                                        :visible="true"
+                                        :draggable="false"
+                                        :lat-lng="[item.sales_order.customer_latitude, item.sales_order.customer_longitude]"
+                                    >
+                                        <l-icon
+                                            :icon-size="[30, 40]"
+                                            :icon-anchor="map_options.static_anchor"
+                                        >
+                                            <v-btn
+                                                v-if="item.status == 1"
+                                                elevation="24"
+                                                fab
+                                                depressed
+                                                small
+                                                class="bold mb4"
+                                                :color="statusMaster('new')"
+                                            >
+                                                <span class="fs16">{{idx + 1}}</span>
+                                            </v-btn>
+                                            <v-btn
+                                                v-if="item.status == 2"
+                                                elevation="24"
+                                                fab
+                                                depressed
+                                                small
+                                                class="bold mb4"
+                                                :color="statusMaster('on_delivery')"
+                                            >
+                                                <span class="fs16">{{idx + 1}}</span>
+                                            </v-btn>
+                                            <v-btn
+                                                v-if="item.status == 3"
+                                                elevation="24"
+                                                fab
+                                                depressed
+                                                small
+                                                class="bold mb4"
+                                                :color="statusMaster('finished')"
+                                            >
+                                                <span class="fs16">{{idx + 1}}</span>
+                                            </v-btn>
+                                            <v-btn
+                                                v-if="item.status == 4"
+                                                elevation="24"
+                                                fab
+                                                depressed
+                                                small
+                                                class="bold mb4"
+                                                :color="statusMaster('draft')"
+                                            >
+                                                <span class="fs16">{{idx + 1}}</span>
+                                            </v-btn>
+                                            <v-btn
+                                                v-if="item.status == 5"
+                                                elevation="24"
+                                                fab
+                                                depressed
+                                                small
+                                                class="bold mb4"
+                                                :color="statusMaster('cancelled')"
+                                            >
+                                                <span class="fs16">{{idx + 1}}</span>
+                                            </v-btn>
+                                        </l-icon>
+                                        <l-popup>
+                                            {{ item.sales_order.code }} <br />
+                                            <!-- {{ item.sales_order.branch.name }} <br /> -->
+                                            {{ item.sales_order.wrt_name }}
+                                        </l-popup>
+                                    </l-marker>
+                                </div>
+                            </v-marker-cluster>
+                            <!-- FOR START AND FINISH LOCATION PIN POINT -->
                             <l-marker
                                 :visible="true"
                                 :draggable="false"
@@ -373,18 +456,92 @@
                                     data.items.starting_longitude
                                 ]"
                             >
+                                <l-popup>
+                                    Start At: {{ formatTime(data.items.started_at) }} <br>
+                                    Finish At: {{ data.items.finished_at == '0001-01-01T00:00:00Z' ? '-' : formatTime(data.items.finished_at) }}
+                                </l-popup>
+                            </l-marker>
+                            <!-- FOR COURIER LOCATION PIN POINT -->
+                            <l-marker
+                                :visible="true"
+                                :draggable="false"
+                                :lat-lng="[
+                                    data.data_drs.courier.latitude,
+                                    data.data_drs.courier.longitude
+                                ]"
+                            >
                                 <l-icon
                                     :icon-size="[30, 40]"
                                     :icon-anchor="map_options.staticAnchor"
                                     :icon-url="emergencyIcon"
-                                >
-                                </l-icon>
+                                    v-if="data.data_drs.courier.emergency_mode == 1 && data.data_drs.courier.latitude && data.data_drs.courier.longitude"
+                                ></l-icon>
+                                <l-icon
+                                    :icon-size="[30, 40]"
+                                    :icon-anchor="map_options.staticAnchor"
+                                    :icon-url="carIcon"
+                                    v-if="data.data_drs.courier.emergency_mode == 2 && data.data_drs.courier.vehicle_profiles.routing_profile.value_name == 'car' && data.data_drs.courier.latitude && data.data_drs.courier.longitude"
+                                ></l-icon>
+                                <l-icon
+                                    :icon-size="[30, 40]"
+                                    :icon-anchor="map_options.staticAnchor"
+                                    :icon-url="bikeIcon"
+                                    v-if="data.data_drs.courier.emergency_mode == 2 && data.data_drs.courier.vehicle_profiles.routing_profile.value_name == 'bike' && data.data_drs.courier.latitude && data.data_drs.courier.longitude"
+                                ></l-icon>
                             </l-marker>
                         </l-map>
                     </div>
                 </v-col>
             </v-row>
         </div>
+        <v-dialog
+            v-model="data.cancel_item.show_cancel_modal"
+            persistent
+            max-width="470px"
+        >
+            <v-card class="OpenSans">
+                <v-card-title>
+                    <span class="text-title-modal">Cancel Delivery Run Sheet Item</span>
+                </v-card-title>
+                <v-card-text>
+                    <span class="fs16 mt-1">Why was this delivery run sheet cancelled?</span>
+                    <v-textarea
+                        name="note"
+                        v-model="data.cancel_item.note"
+                        :counter="100"
+                        outlined
+                        required
+                        maxlength="100"
+                        class="mt-6"
+                        rows="3"
+                    >
+                        <template v-slot:label>
+                            Note<span style="color:red">*</span>
+                        </template>
+                    </v-textarea>
+                </v-card-text>
+                <v-card-actions class="pb-4">
+                    <v-spacer></v-spacer>
+                    <v-btn
+                        data-unq="controlTower-button-cancelDrsi"
+                        @click="cancelNoteModal(false)"
+                        depressed
+                        outlined
+                        color="#EBEBEB"
+                        class="main-btn"
+                    >
+                        <span class="text-black80">Cancel</span>
+                    </v-btn>
+                    <v-btn
+                        data-unq="controlTower-button-saveCancelDrsi"
+                        class="main-btn white--text"
+                        depressed
+                        color="#50ABA3"
+                        @click="cancelDrsi()"
+                    >Save</v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
         <v-dialog
             v-model="filter.detail_dialog"
             persistent
@@ -497,10 +654,10 @@
                                 <v-col>
                                     <div class="d-flex justify-end">
                                         <a 
-                                            v-bind:href="'https://wa.me/62?text=EdenFarm%0A%0AHai%2C%20kurir%20anda%20sedang%20dalam%20perjalanan%20untuk%20mengantar%20pesanan%20anda.%20Mohon%20ditunggu%20ya'"
+                                            v-bind:href="'https://wa.me/62' + data.detail_so.sales_order.address_phone_number + '?text=EdenFarm%0A%0AHai%2C%20kurir%20anda%20sedang%20dalam%20perjalanan%20untuk%20mengantar%20pesanan%20anda.%20Mohon%20ditunggu%20ya'"
                                             target="_blank"
                                         >
-                                            +62{{data.detail_so.sales_order.phone_number ? data.detail_so.sales_order.phone_number : '-'}}
+                                            +62{{data.detail_so.sales_order.address_phone_number ? data.detail_so.sales_order.address_phone_number : '-'}}
                                         </a>
                                         <v-img 
                                             src="/img/whatsapp-icon.svg"
@@ -698,16 +855,20 @@
     import { mapState, mapActions } from 'vuex';
     import waIcon from "../../assets/img/whatsapp-icon.svg";
     import emergencyIcon from "../../assets/img/emergency.png";
+    import bikeIcon from '../../assets/img/motorcycle.png';
+    import carIcon from '../../assets/img/car.png';
 
     export default { 
         data() {
             return {
                 waIcon,
                 emergencyIcon,
+                bikeIcon,
+                carIcon,
             }
         },
         mounted() {
-            this.fetchcontrol_tower_detail({id: this.$route.params.id})
+            this.fetchControlTowerDetail({id: this.$route.params.id})
             this.fetchCourierDetail({id: this.$route.params.id})
         },
         computed: {
@@ -721,7 +882,8 @@
         methods: {
             ...mapActions([
                 'fetchControlTowerDetail',
-                'fetchCourierDetail'
+                'fetchCourierDetail',
+                'cancelDrsi'
             ]),
             defaultData() { // default get data for DRS
                 this.data.data_drs.delivery_run_sheet_item.slice(0, this.filter.show_counted)
@@ -754,6 +916,12 @@
                 this.data.delivery_return = this.data.data_drs.delivery_run_sheet_item.slice(this.filter.show_counted * this.filter.current_page - this.filter.show_counted, this.filter.show_counted * this.filter.current_page)[0].delivery_run_return
                 this.data.detail_so = this.data.data_drs.delivery_run_sheet_item.slice(this.filter.show_counted * this.filter.current_page - this.filter.show_counted, this.filter.show_counted * this.filter.current_page)[0]
                 this.checkPage()
+            },
+            cancelNoteModal(handler, id) { // handling cancel DRSI modal
+                this.$store.commit('setShowCancelModal', handler)
+                this.$store.commit('setCancelId', 1)
+                // if (id) {
+                // }
             }
         },
     }

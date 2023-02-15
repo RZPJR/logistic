@@ -1,8 +1,8 @@
 const state = {
   // Control Tower Index
   control_tower_list: {
-    loading_data: false,
-    loading_maps: false,
+    isLoadingData: false,
+    isLoadingMaps: false,
     filter: {
         search: '',
         filter: false,
@@ -86,15 +86,14 @@ const state = {
   },
   // control Tower Detail
   detail_control_tower: {
-    loading_data: false,
-    loading_maps: false,
+    isLoadingData: false,
+    isLoadingMaps: false,
     error_messages: '',
     filter: {
         show_counted: 1,
         current_page: 1,
         disabled_next: false,
         disabled_prev: false,
-        model_dialog: false,
         cancel_bulk_dialog: false,
         overlay: false,
         detail_dialog: false,
@@ -173,10 +172,17 @@ const state = {
                 }
             },
         }],
-        cancel_note_bulk: '',
-        cancel_note: '',
-        note: {
-            note: ''
+        cancel_bulk: {
+            note: '',
+            success: false,
+            error: {}
+        },
+        cancel_item: {
+            id: 0,
+            note: '',
+            show_cancel_modal: false,
+            success: false,
+            error: {}
         },
         data_auditLog: {},
         detail_so: {
