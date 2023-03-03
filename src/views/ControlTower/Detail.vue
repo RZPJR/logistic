@@ -104,7 +104,7 @@
                     <DetailRowNew :name="'License Plate'" :value="data.items.courier.license_plate" />
                 </v-col>
                 <v-col cols="12" md="6" class="-mt24">
-                    <DetailRowNew :name="'Warehouse'" :value="data.items.courier.warehouse_name" />
+                    <DetailRowNew :name="'Site'" :value="data.items.courier.warehouse_name" />
                 </v-col>
                 <v-col cols="12" md="6" class="-mt24">
                     <DetailRowNew :name="'Start Time'" :value="formatTime(data.items.started_at)" />
@@ -696,7 +696,7 @@
                 <v-card-text>
                     <v-row>
                         <v-col cols="12" class="-mt24">
-                            <DetailRowNew :name="'Merchant'" :value="data.detail_so.sales_order.customer_name"/>
+                            <DetailRowNew :name="'Customer'" :value="data.detail_so.sales_order.customer_name"/>
                         </v-col>
                         <v-col cols="12" md="4" class="-mt24 mb10">
                             <v-row class="-mb1">
