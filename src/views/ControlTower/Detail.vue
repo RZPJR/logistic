@@ -447,7 +447,7 @@
                                         </l-icon>
                                         <l-popup>
                                             {{ item.sales_order.code }} <br />
-                                            <!-- {{ item.sales_order.branch.name }} <br /> -->
+                                            {{ item.sales_order.customer_name }} <br />
                                             {{ item.sales_order.wrt_name }}
                                         </l-popup>
                                     </l-marker>
@@ -611,7 +611,7 @@
                             icon
                             class="-mr10 -mt3"
                             @click="prevPage"
-                            :disabled="filter.disabledPrev"
+                            :disabled="filter.disabled_prev"
                         >
                             <v-icon>
                                 mdi-arrow-left-drop-circle-outline
@@ -622,7 +622,7 @@
                             icon
                             class="-mt3"
                             @click="nextPage"
-                            :disabled="filter.disabledNext"
+                            :disabled="filter.disabled_next"
                         >
                             <v-icon>
                                 mdi-arrow-right-drop-circle-outline
@@ -904,7 +904,7 @@
 </template>
 
 <script>
-    import { mapState, mapActions } from 'vuex';
+    import { mapState, mapActions, mapMutations } from 'vuex';
     import waIcon from "../../assets/img/whatsapp-icon.svg";
     import emergencyIcon from "../../assets/img/emergency.png";
     import bikeIcon from '../../assets/img/motorcycle.png';
@@ -943,31 +943,43 @@
             },
             checkPage() { // check page for next/prev page
                 if (this.filter.show_counted * this.filter.current_page >= this.data.data_drs.delivery_run_sheet_item.length && this.data.data_drs.delivery_run_sheet_item.length !== 1) {
-                    this.filter.disabledNext = true
-                    this.filter.disabledPrev = false
+                    this.$store.commit("setDisabledButton", {
+                        disabled_next: true,
+                        disabled_prev: false
+                    })
                 } else if (this.filter.current_page <= 1 && this.data.data_drs.delivery_run_sheet_item.length !== 1) {
-                    this.filter.disabledNext = false
-                    this.filter.disabledPrev = true
+                    this.$store.commit("setDisabledButton", {
+                        disabled_next: false,
+                        disabled_prev: true
+                    })
                 } else if (this.filter.current_page <= 1 && this.data.data_drs.delivery_run_sheet_item.length === 1) {
-                    this.filter.disabledNext = true
-                    this.filter.disabledPrev = true
+                    this.$store.commit("setDisabledButton", {
+                        disabled_next: true,
+                        disabled_prev: true
+                    })
                 } else {
-                    this.filter.disabledNext = false
-                    this.filter.disabledPrev = false
+                    this.$store.commit("setDisabledButton", {
+                        disabled_next: false,
+                        disabled_prev: false
+                    })
                 }
             },
             nextPage() { // next page
-                this.data.detail_so = this.data.data_drs.delivery_run_sheet_item.slice(this.filter.show_counted * this.filter.current_page, this.filter.show_counted * this.filter.current_page + this.filter.show_counted)[0]
-                this.data.delivery_return = this.data.data_drs.delivery_run_sheet_item.slice(this.filter.show_counted * this.filter.current_page, this.filter.show_counted * this.filter.current_page + this.filter.show_counted)[0].delivery_run_return
-                this.data.postponed_delivery = this.data.data_drs.delivery_run_sheet_item.slice(this.filter.show_counted * this.filter.current_page, this.filter.show_counted * this.filter.current_page + this.filter.show_counted)[0].postpone_delivery_log
-                this.filter.current_page++
+                this.$store.commit("setPage", {
+                    detail_so: this.data.data_drs.delivery_run_sheet_item.slice(this.filter.show_counted * this.filter.current_page, this.filter.show_counted * this.filter.current_page + this.filter.show_counted)[0],
+                    delivery_return: this.data.data_drs.delivery_run_sheet_item.slice(this.filter.show_counted * this.filter.current_page, this.filter.show_counted * this.filter.current_page + this.filter.show_counted)[0].delivery_run_return,
+                    postponed_history: this.data.data_drs.delivery_run_sheet_item.slice(this.filter.show_counted * this.filter.current_page, this.filter.show_counted * this.filter.current_page + this.filter.show_counted)[0].postpone_delivery_log,
+                    current_page: this.filter.current_page++
+                })
                 this.checkPage()
             },
             prevPage() { // prev page
-                this.filter.current_page--
-                this.data.postponed_delivery = this.data.data_drs.delivery_run_sheet_item.slice(this.filter.show_counted * this.filter.current_page - this.filter.show_counted, this.filter.show_counted * this.filter.current_page)[0].postpone_delivery_log
-                this.data.delivery_return = this.data.data_drs.delivery_run_sheet_item.slice(this.filter.show_counted * this.filter.current_page - this.filter.show_counted, this.filter.show_counted * this.filter.current_page)[0].delivery_run_return
-                this.data.detail_so = this.data.data_drs.delivery_run_sheet_item.slice(this.filter.show_counted * this.filter.current_page - this.filter.show_counted, this.filter.show_counted * this.filter.current_page)[0]
+                this.$store.commit("setPage", {
+                    current_page: this.filter.current_page--,
+                    postponed_history: this.data.data_drs.delivery_run_sheet_item.slice(this.filter.show_counted * this.filter.current_page - this.filter.show_counted, this.filter.show_counted * this.filter.current_page)[0].postpone_delivery_log,
+                    delivery_return: this.data.data_drs.delivery_run_sheet_item.slice(this.filter.show_counted * this.filter.current_page - this.filter.show_counted, this.filter.show_counted * this.filter.current_page)[0].delivery_run_return,
+                    detail_so: this.data.data_drs.delivery_run_sheet_item.slice(this.filter.show_counted * this.filter.current_page - this.filter.show_counted, this.filter.show_counted * this.filter.current_page)[0]
+                })
                 this.checkPage()
             },
             cancelBulkModal(handler, id) { // handling cancel bulk DRSI modal
