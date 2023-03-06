@@ -77,8 +77,6 @@ const actions = {
     },
     // Cancel DRSI
     cancelDrsi: async ({ state, commit, dispatch }, payload) => {
-        commit('setPreloadControlTowerDetail', true)
-        commit('setPreloadControlTowerMaps', true)
         try {
             await http.put("/control_tower/cancel/item/" + state.detail_control_tower.data.cancel_item.id, {
                 note: state.detail_control_tower.data.cancel_item.note
@@ -91,19 +89,17 @@ const actions = {
                 commit('setCancelId', 0)
                 commit('setCancelNote', '')
                 commit('setShowCancelModal', false)
-                commit('setPreloadControlTowerDetail', false)
-                commit('setPreloadControlTowerMaps', false)
+                dispatch('fetchControlTowerDetail', { id: state.detail_control_tower.data.items.id })
+                dispatch('fetchCourierDetail', { id: state.detail_control_tower.data.items.id })
             })
         } catch (error) {
             commit('setShowCancelModal', false)
-            commit('setPreloadControlTowerDetail', false)
-            commit('setPreloadControlTowerMaps', false)
+            dispatch('fetchControlTowerDetail', { id: state.detail_control_tower.data.items.id })
+                dispatch('fetchCourierDetail', { id: state.detail_control_tower.data.items.id })
         }
     },
     // Cancel BULK DRSI
     cancelBulkDrsi: async ({ state, commit, dispatch }, payload) => {
-        commit('setPreloadControlTowerDetail', true)
-        commit('setPreloadControlTowerMaps', true)
         try {
             await http.put("/control_tower/cancel/" + state.detail_control_tower.data.cancel_bulk.id, {
                 note: state.detail_control_tower.data.cancel_bulk.note
@@ -116,13 +112,13 @@ const actions = {
                 commit('setCancelBulkId', 0)
                 commit('setCancelBulkNote', '')
                 commit('setShowCancelBulkModal', false)
-                commit('setPreloadControlTowerDetail', false)
-                commit('setPreloadControlTowerMaps', false)
+                dispatch('fetchControlTowerDetail', { id: state.detail_control_tower.data.items.id })
+                dispatch('fetchCourierDetail', { id: state.detail_control_tower.data.items.id })
             })
         } catch (error) {
             commit('setShowCancelBulkModal', false)
-            commit('setPreloadControlTowerDetail', false)
-            commit('setPreloadControlTowerMaps', false)
+            dispatch('fetchControlTowerDetail', { id: state.detail_control_tower.data.items.id })
+                dispatch('fetchCourierDetail', { id: state.detail_control_tower.data.items.id })
         }
     }
 };
