@@ -95,7 +95,7 @@ const actions = {
         } catch (error) {
             commit('setShowCancelModal', false)
             dispatch('fetchControlTowerDetail', { id: state.detail_control_tower.data.items.id })
-                dispatch('fetchCourierDetail', { id: state.detail_control_tower.data.items.id })
+            dispatch('fetchCourierDetail', { id: state.detail_control_tower.data.items.id })
         }
     },
     // Cancel BULK DRSI
@@ -118,7 +118,7 @@ const actions = {
         } catch (error) {
             commit('setShowCancelBulkModal', false)
             dispatch('fetchControlTowerDetail', { id: state.detail_control_tower.data.items.id })
-                dispatch('fetchCourierDetail', { id: state.detail_control_tower.data.items.id })
+            dispatch('fetchCourierDetail', { id: state.detail_control_tower.data.items.id })
         }
     }
 };
