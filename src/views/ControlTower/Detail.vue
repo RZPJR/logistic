@@ -810,12 +810,15 @@
                                         <td>{{ props.item.started_at == '0001-01-01T00:00:00Z' ? '-' : formatTime(props.item.started_at) }}</td>
                                         <td>{{ props.item.postponed_at == '0001-01-01T00:00:00Z' ? '-' : formatTime(props.item.postponed_at) }}</td>
                                         <td>
-                                            <DisplayPhotoOverlay
-                                                v-if="props.item.postpone_evidence"
-                                                :title="'Postponed Image'"
-                                                :src="props.item.postpone_evidence"
-                                                class="rounded-form-sm"
-                                            />
+                                            <div
+                                                class="my-2"
+                                            >
+                                                <DisplayPhotoOverlay
+                                                    v-if="props.item.postpone_evidence"
+                                                    :title="'Postponed Image'"
+                                                    :src="props.item.postpone_evidence"
+                                                />
+                                            </div>
                                         </td>
                                     </tr>
                                 </template>
