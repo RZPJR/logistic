@@ -486,13 +486,13 @@
                                     :icon-size="[30, 40]"
                                     :icon-anchor="map_options.staticAnchor"
                                     :icon-url="carIcon"
-                                    v-if="data.data_drs.courier.emergency_mode == 2 && data.data_drs.courier.vehicle_profiles.routing_profile.value_name == 'car' && data.data_drs.courier.latitude && data.data_drs.courier.longitude"
+                                    v-if="data.data_drs.courier.emergency_mode == 2 && data.data_drs.courier.vehicle_profile_type === 'car' && data.data_drs.courier.latitude && data.data_drs.courier.longitude"
                                 ></l-icon>
                                 <l-icon
                                     :icon-size="[30, 40]"
                                     :icon-anchor="map_options.staticAnchor"
                                     :icon-url="bikeIcon"
-                                    v-if="data.data_drs.courier.emergency_mode == 2 && data.data_drs.courier.vehicle_profiles.routing_profile.value_name == 'bike' && data.data_drs.courier.latitude && data.data_drs.courier.longitude"
+                                    v-if="data.data_drs.courier.emergency_mode == 2 && data.data_drs.courier.vehicle_profile_type === 'bike' && data.data_drs.courier.latitude && data.data_drs.courier.longitude"
                                 ></l-icon>
                             </l-marker>
                         </l-map>
