@@ -6,7 +6,7 @@ const state = {
     filter: {
         search: '',
         filter: false,
-        warehouse_id: '',
+        warehouse_id: null,
         vendor: null,
         courier: null,
         status: 2.1,

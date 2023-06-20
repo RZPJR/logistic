@@ -8,7 +8,7 @@ const actions = {
         commit('setPreloadControlTowerList', true);
         try {
             // let status = state.controlTower.filter.status === 999 ? '' : state.controlTower.filter.status
-            // let warehouse = state.controlTower.filter.warehouse_id === '' ? '' : state.controlTower.filter.warehouse_id
+            let warehouse = state.control_tower_list.filter.warehouse_id === '' ? '' : state.control_tower_list.filter.warehouse_id
             // let vendor = state.controlTower.filter.courier_vendor_id === '' ? '' : state.controlTower.filter.courier_vendor_id
             // let courier = state.controlTower.filter.courier_id === '' ? '' : state.controlTower.filter.courier_id
             let delivery_date_start = ''
@@ -26,7 +26,7 @@ const actions = {
                 params: {
                     page: 1,
                     limit: 100,
-                    site_id: 1,
+                    site_id: warehouse,
                     start_delivery_date: delivery_date_start,
                     end_delivery_date: delivery_date_end,
                 }
@@ -39,10 +39,11 @@ const actions = {
     },
     // Courier List for Map (Control Tower)
     fetchCourierList: async ({ state, commit, dispatch }, payload) => {
+        let warehouse = state.control_tower_list.filter.warehouse_id === '' ? '' : state.control_tower_list.filter.warehouse_id
         commit('setCourierList', [])
         commit('setPreloadControlTowerMapsList', true);
         let data = {
-            "site_id" : 1
+            "site_id" : warehouse
         }
         try {
             const response = await http.post("/control_tower", data);

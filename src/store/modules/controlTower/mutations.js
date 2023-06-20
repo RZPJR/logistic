@@ -16,6 +16,10 @@ const mutations = {
         state.control_tower_list.isLoadingMaps = payload;
         return state;
     },
+    setWarehouseFilter: function(state, payload) { // set warehouse filter Index Control Tower
+        state.control_tower_list.filter.warehouse_id = payload;
+        return state;
+    },
     
     // Detail Control Tower
     setControlTowerDetail: function(state, payload) { // get data Detail Control Tower
