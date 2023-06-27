@@ -25,7 +25,7 @@ spec:
       - name: registry
       containers:
       - name: fe-logistic
-        image: git.edenfarm.id:5050/project-version3/erp-dashboard/logistic/dev:<VERSION>
+        image: git.edenfarm.id:5050/project-version3/erp-dashboard/logistic/uat:<VERSION>
         ports:
           - name: http-port
             containerPort: 8080
@@ -35,8 +35,8 @@ spec:
             memory: 50Mi
             cpu: 15m
           limits:
-            memory: 150Mi
-            cpu: 100m
+            memory: 350Mi
+            cpu: 200m
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
@@ -118,7 +118,7 @@ metadata:
   namespace: fe-logistic
 spec:
   dnsNames:
-    - fe-logistic.edenfarm.tech
+    - uat-fe-logistic.edenfarm.tech
   secretName: fe-logistic-tls
   issuerRef:
     name: letsencrypt-cluster-issuer
@@ -134,10 +134,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - fe-logistic.edenfarm.tech
+    - uat-fe-logistic.edenfarm.tech
     secretName: fe-logistic-tls
   rules:
-  - host: fe-logistic.edenfarm.tech
+  - host: uat-fe-logistic.edenfarm.tech
     http:
       paths:
       - path: /
