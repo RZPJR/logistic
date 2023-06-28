@@ -973,13 +973,13 @@
                     detail_so: this.data.data_drs.delivery_run_sheet_item.slice(this.filter.show_counted * this.filter.current_page, this.filter.show_counted * this.filter.current_page + this.filter.show_counted)[0],
                     delivery_return: this.data.data_drs.delivery_run_sheet_item.slice(this.filter.show_counted * this.filter.current_page, this.filter.show_counted * this.filter.current_page + this.filter.show_counted)[0].delivery_run_return,
                     postponed_history: this.data.data_drs.delivery_run_sheet_item.slice(this.filter.show_counted * this.filter.current_page, this.filter.show_counted * this.filter.current_page + this.filter.show_counted)[0].postpone_delivery_log,
-                    current_page: this.filter.current_page++
+                    current_page: ++this.filter.current_page
                 })
                 this.checkPage()
             },
             prevPage() { // prev page
                 this.$store.commit("setPage", {
-                    current_page: this.filter.current_page--,
+                    current_page: --this.filter.current_page,
                     postponed_history: this.data.data_drs.delivery_run_sheet_item.slice(this.filter.show_counted * this.filter.current_page - this.filter.show_counted, this.filter.show_counted * this.filter.current_page)[0].postpone_delivery_log,
                     delivery_return: this.data.data_drs.delivery_run_sheet_item.slice(this.filter.show_counted * this.filter.current_page - this.filter.show_counted, this.filter.show_counted * this.filter.current_page)[0].delivery_run_return,
                     detail_so: this.data.data_drs.delivery_run_sheet_item.slice(this.filter.show_counted * this.filter.current_page - this.filter.show_counted, this.filter.show_counted * this.filter.current_page)[0]
