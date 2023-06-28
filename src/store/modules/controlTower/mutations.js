@@ -16,6 +16,22 @@ const mutations = {
         state.control_tower_list.isLoadingMaps = payload;
         return state;
     },
+    setWarehouseFilter: function(state, payload) { // set warehouse filter Index Control Tower
+        state.control_tower_list.filter.warehouse_id = payload;
+        return state;
+    },
+    setVendorFilter: function(state, payload) { // set vendor filter Index Control Tower
+        state.control_tower_list.filter.vendor_id = payload;
+        return state;
+    },
+    setCourierFilter: function(state, payload) { // set courier filter Index Control Tower
+        state.control_tower_list.filter.courier_id = payload;
+        return state;
+    },
+    setStatusFilter: function(state, payload) { // set status filter Index Control Tower
+        state.control_tower_list.filter.status = payload;
+        return state;
+    },
     
     // Detail Control Tower
     setControlTowerDetail: function(state, payload) { // get data Detail Control Tower
