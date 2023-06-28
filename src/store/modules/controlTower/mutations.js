@@ -90,11 +90,15 @@ const mutations = {
         state.detail_control_tower.filter.disabled_next = payload.disabled_next;
         state.detail_control_tower.filter.disabled_prev = payload.disabled_prev;
     },
-    setPage: function(state, payload) {
+    setPage: function(state, payload) { // set Detail Dialog Page
         state.detail_control_tower.data.detail_so = payload.detail_so;
         state.detail_control_tower.data.delivery_return = payload.delivery_return;
         state.detail_control_tower.data.postponed_history = payload.postponed_history;
         state.detail_control_tower.filter.current_page = payload.current_page;
+    },
+    setLoadingOverlay: function(state, payload) { // set loading overlay
+        state.detail_control_tower.filter.overlay = payload;
+        return state;
     }
 };
 
