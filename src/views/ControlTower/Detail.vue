@@ -138,7 +138,7 @@
                     <div class="scroll-list">
                         <div
                             class="d-flex justify-center"
-                            v-if="control_tower_detail.isLoadingData"
+                            v-if="control_tower_detail.isLoadingMaps"
                         >
                             <div class="mt15">
                                 <div class="text-center">
@@ -487,13 +487,13 @@
                                     :icon-size="[30, 40]"
                                     :icon-anchor="map_options.staticAnchor"
                                     :icon-url="carIcon"
-                                    v-if="data.data_drs.courier.emergency_mode == 2 && data.data_drs.courier.vehicle_profile_type === 'Car' && data.data_drs.courier.latitude && data.data_drs.courier.longitude"
+                                    v-if="data.data_drs.courier.emergency_mode == 2 && data.data_drs.courier.vehicle_profile_type === 'car' && data.data_drs.courier.latitude && data.data_drs.courier.longitude"
                                 ></l-icon>
                                 <l-icon
                                     :icon-size="[30, 40]"
                                     :icon-anchor="map_options.staticAnchor"
                                     :icon-url="bikeIcon"
-                                    v-if="data.data_drs.courier.emergency_mode == 2 && data.data_drs.courier.vehicle_profile_type === 'Bike' && data.data_drs.courier.latitude && data.data_drs.courier.longitude"
+                                    v-if="data.data_drs.courier.emergency_mode == 2 && data.data_drs.courier.vehicle_profile_type === 'bike' && data.data_drs.courier.latitude && data.data_drs.courier.longitude"
                                 ></l-icon>
                             </l-marker>
                         </l-map>
@@ -699,13 +699,13 @@
                         <v-col cols="12" class="-mt24">
                             <DetailRowNew :name="'Customer'" :value="data.detail_so.sales_order.customer_name"/>
                         </v-col>
-                        <v-col cols="12" md="4" class="-mt24 mb10">
+                        <v-col cols="12" md="4" class="-mt12 mb12">
                             <v-row class="-mb1">
                                 <v-col>
-                                    <div class="text-black60">Phone Number</div>
+                                    <div class="text-black60 -mt12">Phone Number</div>
                                 </v-col>
                                 <v-col>
-                                    <div class="d-flex justify-end">
+                                    <div class="d-flex justify-end -mt12">
                                         <a 
                                             v-bind:href="'https://wa.me/62' + data.detail_so.sales_order.address_phone_number + '?text=EdenFarm%0A%0AHai%2C%20kurir%20anda%20sedang%20dalam%20perjalanan%20untuk%20mengantar%20pesanan%20anda.%20Mohon%20ditunggu%20ya'"
                                             target="_blank"
@@ -713,10 +713,10 @@
                                             +62{{ data.detail_so.sales_order.address_phone_number }}
                                         </a>
                                         <v-img 
-                                            src="/img/whatsapp-icon.svg"
+                                            :src="waIcon"
                                             max-height="25"
                                             max-width="25"
-                                            class="ml10"
+                                            class="ml10 mb12"
                                         ></v-img>
                                     </div>
                                 </v-col>
@@ -811,12 +811,15 @@
                                         <td>{{ props.item.started_at == '0001-01-01T00:00:00Z' ? '-' : formatTime(props.item.started_at) }}</td>
                                         <td>{{ props.item.postponed_at == '0001-01-01T00:00:00Z' ? '-' : formatTime(props.item.postponed_at) }}</td>
                                         <td>
-                                            <DisplayPhotoOverlay
-                                                v-if="props.item.postpone_evidence"
-                                                :title="'Postponed Image'"
-                                                :src="props.item.postpone_evidence"
-                                                class="rounded-form-sm"
-                                            />
+                                            <div
+                                                class="my-2"
+                                            >
+                                                <DisplayPhotoOverlay
+                                                    v-if="props.item.postpone_evidence"
+                                                    :title="'Postponed Image'"
+                                                    :src="props.item.postpone_evidence"
+                                                />
+                                            </div>
                                         </td>
                                     </tr>
                                 </template>
