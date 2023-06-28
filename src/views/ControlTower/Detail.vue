@@ -507,6 +507,7 @@
             max-width="470px"
         >
             <v-card class="OpenSans">
+                <LoadingBar :value="filter.overlay" />
                 <v-card-title>
                     <span class="text-title-modal">Cancel Delivery Run Sheet</span>
                 </v-card-title>
@@ -553,6 +554,7 @@
             max-width="470px"
         >
             <v-card class="OpenSans">
+                <LoadingBar :value="filter.overlay" />
                 <v-card-title>
                     <span class="text-title-modal">Cancel Delivery Run Sheet Item</span>
                 </v-card-title>
