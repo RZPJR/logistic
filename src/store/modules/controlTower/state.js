@@ -7,9 +7,9 @@ const state = {
         search: '',
         filter: false,
         warehouse_id: null,
-        vendor: null,
-        courier: null,
-        status: 2.1,
+        vendor_id: null,
+        courier_id: null,
+        status: '2,1',
         statuses: [
             {
                 text: 'All Status',
@@ -17,7 +17,7 @@ const state = {
             },
             {
                 text: 'On Progress',
-                value: 2.1
+                value: '2,1'
             },
             {
                 text: 'Finished',

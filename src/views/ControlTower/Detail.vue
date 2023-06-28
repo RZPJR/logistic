@@ -67,16 +67,16 @@
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="12" md="6" class="-mb25">
+                <v-col cols="12" md="6" class="-mb24">
                     <DetailRowNew :name="'Courier'" :value="data.items.courier.name" />
                 </v-col>
-                <v-col cols="12" md="6">
+                <v-col cols="12" md="6" class="-mt12">
                     <v-row class="mb1">
                         <v-col>
-                            <div class="text-black60">Phone Number</div>
+                            <div class="text-black60 mt12">Phone Number</div>
                         </v-col>
                         <v-col>
-                            <div class="d-flex justify-end">
+                            <div class="d-flex justify-end mt12">
                                 <a
                                     v-bind:href="'https://wa.me/' + data.items.courier.courier_phone_number +'?text=%2APesan%20dari%20EdenFarm%20Control%20Tower%3A%2A%0A'"
                                     target="_blank"
@@ -87,7 +87,7 @@
                                     :src="waIcon"
                                     max-height="25"
                                     max-width="25"
-                                    class="ml10"
+                                    class="ml10 mb12"
                                 ></v-img>
                             </div>
                         </v-col>
@@ -151,26 +151,27 @@
                             </div>
                         </div>
                         <div class="ma12 wp100" v-else>
+                            <div
+                                class="d-flex justify-center scroll-list fill-height"
+                                v-if="control_tower_detail.error_messages"
+                            >
+                                <div class="mt15">
+                                    <div class="text-center">
+                                        <v-col>
+                                            <div class="-mt24 -ml15 -mr15">
+                                                <div class="text-center bold">No Data Available</div>
+                                            </div>
+                                        </v-col>
+                                    </div>
+                                </div>
+                            </div>
                             <v-row
+                                v-else
                                 v-for="(item, index) in data.data_drs.delivery_run_sheet_item"
                                 :key="index"
                             >
                                 <v-col>
-                                    <div
-                                        class="d-flex justify-center scroll-list fill-height"
-                                        v-if="control_tower_detail.error_messages"
-                                    >
-                                        <div class="mt15">
-                                            <div class="text-center">
-                                                <v-col>
-                                                    <div class="-mt24 -ml15 -mr15">
-                                                        <div class="text-center bold">No Data Available</div>
-                                                    </div>
-                                                </v-col>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="box-col-ep -ml15 mr15 -mb10" v-else>
+                                    <div class="box-col-ep -ml15 mr15 -mb10">
                                         <v-row class="-mr30">
                                             <v-col cols="12" md="6">
                                                 <v-row>

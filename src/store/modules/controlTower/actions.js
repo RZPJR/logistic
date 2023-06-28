@@ -7,10 +7,10 @@ const actions = {
         commit('setControlTowerList', [])
         commit('setPreloadControlTowerList', true);
         try {
-            // let status = state.controlTower.filter.status === 999 ? '' : state.controlTower.filter.status
+            let status = state.control_tower_list.filter.status === 999 ? '' : state.control_tower_list.filter.status
             let warehouse = state.control_tower_list.filter.warehouse_id === '' ? '' : state.control_tower_list.filter.warehouse_id
-            // let vendor = state.controlTower.filter.courier_vendor_id === '' ? '' : state.controlTower.filter.courier_vendor_id
-            // let courier = state.controlTower.filter.courier_id === '' ? '' : state.controlTower.filter.courier_id
+            let vendor = state.control_tower_list.filter.vendor_id === '' ? '' : state.control_tower_list.filter.vendor_id
+            let courier = state.control_tower_list.filter.courier_id === '' ? '' : state.control_tower_list.filter.courier_id
             let delivery_date_start = ''
             let delivery_date_end = ''
             if (state.control_tower_list.filter.delivery_date.value.length > 0) {
@@ -25,8 +25,11 @@ const actions = {
             const response = await http.get("/control_tower", {
                 params: {
                     page: 1,
-                    limit: 100,
+                    per_page: 100,
                     site_id: warehouse,
+                    courier_id: courier,
+                    vendor_id: vendor,
+                    status_id_in: status,
                     start_delivery_date: delivery_date_start,
                     end_delivery_date: delivery_date_end,
                 }

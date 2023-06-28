@@ -396,6 +396,8 @@
         },
         created() {
             this.$store.commit("setWarehouseFilter", null)
+            this.$store.commit("setVendorFilter", null)
+            this.$store.commit("setCourierFilter", null)
             this.fetchControlTowerList()
             this.getUserPosition()
             this.fetchCourierList()
@@ -445,10 +447,20 @@
                 this.fetchControlTowerList()
             },
             vendorSelected(d) { // select vendor
-                console.log(d,'ini select vendor')
+                this.$store.commit("setVendorFilter", null)
+                if (d) {
+                    this.$store.commit("setVendorFilter", d.id)
+                }
+                this.fetchControlTowerList()
+                // this.fetchCourierList()
             },
             courierSelected(d) { // select courier
-                console.log(d,'ini select courier')
+                this.$store.commit("setCourierFilter", null)
+                if (d) {
+                    this.$store.commit("setCourierFilter", d.id)
+                }
+                this.fetchControlTowerList()
+                // this.fetchCourierList()
             },
             siteSelected(d) { // select site
                 this.$store.commit("setWarehouseFilter", null)
@@ -456,7 +468,7 @@
                     this.$store.commit("setWarehouseFilter", d.id)
                 }
                 this.fetchControlTowerList()
-                this.fetchCourierList()
+                // this.fetchCourierList()
             }
         },
         watch: {
@@ -486,6 +498,15 @@
                 handler: function (val) {
                     if (val) {
                         this.filter.delivery_date.input = this.formatDateRange(val)
+                    }
+                },
+                deep: true
+            },
+            'filter.status': {
+                handler: function (val) {
+                    if(val){
+                        this.$store.commit('setStatusFilter', val)
+                        this.fetchControlTowerList()
                     }
                 },
                 deep: true
