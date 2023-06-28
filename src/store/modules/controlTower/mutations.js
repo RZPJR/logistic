@@ -86,15 +86,13 @@ const mutations = {
         state.detail_control_tower.data.cancel_bulk.show_cancel_bulk_modal = payload;
         return state;
     },
-    setDisabledButton: function(state, payload) { // disable button for Detail DRSI
-        state.detail_control_tower.filter.disabled_next = payload.disabled_next;
-        state.detail_control_tower.filter.disabled_prev = payload.disabled_prev;
+    setFilterDetail: function(state, payload) { // disable button for Detail DRSI
+        state.detail_control_tower.filter = payload;
+        return state;
     },
-    setPage: function(state, payload) {
-        state.detail_control_tower.data.detail_so = payload.detail_so;
-        state.detail_control_tower.data.delivery_return = payload.delivery_return;
-        state.detail_control_tower.data.postponed_history = payload.postponed_history;
-        state.detail_control_tower.filter.current_page = payload.current_page;
+    setDataDetail: function(state, payload) {
+        state.detail_control_tower.data = payload;
+        return state
     }
 };
 
