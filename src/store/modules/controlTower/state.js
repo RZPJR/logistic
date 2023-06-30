@@ -97,6 +97,7 @@ const state = {
         cancel_bulk_dialog: false,
         overlay: false,
         detail_dialog: false,
+        overlay: false,
     },
     map_options: {
         user_location: {

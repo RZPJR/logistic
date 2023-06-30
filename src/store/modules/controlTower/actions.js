@@ -81,6 +81,7 @@ const actions = {
     },
     // Cancel DRSI
     cancelDrsi: async ({ state, commit, dispatch }, payload) => {
+        commit('setLoadingOverlay', true);
         try {
             await http.put("/control_tower/cancel/item/" + state.detail_control_tower.data.cancel_item.id, {
                 note: state.detail_control_tower.data.cancel_item.note
@@ -90,20 +91,23 @@ const actions = {
                     message: 'Data has been canceled successfully',
                     type: 'success',
                 });
-                commit('setCancelId', 0)
-                commit('setCancelNote', '')
-                commit('setShowCancelModal', false)
-                dispatch('fetchControlTowerDetail', { id: state.detail_control_tower.data.items.id })
-                dispatch('fetchCourierDetail', { id: state.detail_control_tower.data.items.id })
+                commit('setCancelId', 0);
+                commit('setCancelNote', '');
+                commit('setShowCancelModal', false);
+                commit('setLoadingOverlay', false);
+                dispatch('fetchControlTowerDetail', { id: state.detail_control_tower.data.items.id });
+                dispatch('fetchCourierDetail', { id: state.detail_control_tower.data.items.id });
             })
         } catch (error) {
-            commit('setShowCancelModal', false)
-            dispatch('fetchControlTowerDetail', { id: state.detail_control_tower.data.items.id })
-            dispatch('fetchCourierDetail', { id: state.detail_control_tower.data.items.id })
+            commit('setShowCancelModal', false);
+            commit('setLoadingOverlay', false);
+            dispatch('fetchControlTowerDetail', { id: state.detail_control_tower.data.items.id });
+            dispatch('fetchCourierDetail', { id: state.detail_control_tower.data.items.id });
         }
     },
     // Cancel BULK DRSI
     cancelBulkDrsi: async ({ state, commit, dispatch }, payload) => {
+        commit('setLoadingOverlay', true);
         try {
             await http.put("/control_tower/cancel/" + state.detail_control_tower.data.cancel_bulk.id, {
                 note: state.detail_control_tower.data.cancel_bulk.note
@@ -113,16 +117,18 @@ const actions = {
                     message: 'Data has been canceled successfully',
                     type: 'success',
                 });
-                commit('setCancelBulkId', 0)
-                commit('setCancelBulkNote', '')
-                commit('setShowCancelBulkModal', false)
-                dispatch('fetchControlTowerDetail', { id: state.detail_control_tower.data.items.id })
-                dispatch('fetchCourierDetail', { id: state.detail_control_tower.data.items.id })
+                commit('setCancelBulkId', 0);
+                commit('setCancelBulkNote', '');
+                commit('setShowCancelBulkModal', false);
+                commit('setLoadingOverlay', false);
+                dispatch('fetchControlTowerDetail', { id: state.detail_control_tower.data.items.id });
+                dispatch('fetchCourierDetail', { id: state.detail_control_tower.data.items.id });
             })
         } catch (error) {
-            commit('setShowCancelBulkModal', false)
-            dispatch('fetchControlTowerDetail', { id: state.detail_control_tower.data.items.id })
-            dispatch('fetchCourierDetail', { id: state.detail_control_tower.data.items.id })
+            commit('setShowCancelBulkModal', false);
+            commit('setLoadingOverlay', false);
+            dispatch('fetchControlTowerDetail', { id: state.detail_control_tower.data.items.id });
+            dispatch('fetchCourierDetail', { id: state.detail_control_tower.data.items.id });
         }
     }
 };
