@@ -353,13 +353,13 @@
                                     :icon-size="[25, 40]"
                                     :icon-anchor="map_options.static_anchor"
                                     :icon-url="carIcon"
-                                    v-if="item.emergency_mode == 2 && item.vehicle_profile_type === 'Car' && item.latitude && item.longitude"
+                                    v-if="item.emergency_mode == 2 && item.vehicle_profile_type === 'car' && item.latitude && item.longitude"
                                 ></l-icon>
                                 <l-icon
                                     :icon-size="[30, 40]"
                                     :icon-anchor="map_options.static_anchor"
                                     :icon-url="bikeIcon"
-                                    v-if="item.emergency_mode == 2 && item.vehicle_profile_type === 'Bike' && item.latitude && item.longitude"
+                                    v-if="item.emergency_mode == 2 && item.vehicle_profile_type === 'bike' && item.latitude && item.longitude"
                                 ></l-icon>
                                 <l-popup
                                     v-if="item.latitude && item.longitude"
@@ -452,7 +452,7 @@
                     this.$store.commit("setVendorFilter", d.id)
                 }
                 this.fetchControlTowerList()
-                // this.fetchCourierList()
+                this.fetchCourierList()
             },
             courierSelected(d) { // select courier
                 this.$store.commit("setCourierFilter", null)
@@ -460,7 +460,7 @@
                     this.$store.commit("setCourierFilter", d.id)
                 }
                 this.fetchControlTowerList()
-                // this.fetchCourierList()
+                this.fetchCourierList()
             },
             siteSelected(d) { // select site
                 this.$store.commit("setWarehouseFilter", null)
@@ -468,7 +468,7 @@
                     this.$store.commit("setWarehouseFilter", d.id)
                 }
                 this.fetchControlTowerList()
-                // this.fetchCourierList()
+                this.fetchCourierList()
             }
         },
         watch: {
