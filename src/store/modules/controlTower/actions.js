@@ -51,7 +51,6 @@ const actions = {
             "site_id" : warehouse,
             "courier_vendor_id" : vendor,
             "courier_id" : courier,
-
         }
         try {
             const response = await http.post("/control_tower", data);
