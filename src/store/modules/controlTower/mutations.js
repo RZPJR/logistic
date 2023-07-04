@@ -32,6 +32,10 @@ const mutations = {
         state.control_tower_list.filter.status = payload;
         return state;
     },
+    setSearchFilter: function(state, payload) { // set search filter Index Control Tower
+        state.control_tower_list.filter.search = payload;
+        return state;
+    },
     
     // Detail Control Tower
     setControlTowerDetail: function(state, payload) { // get data Detail Control Tower

@@ -472,6 +472,16 @@
             }
         },
         watch: {
+            'filter.search' : {
+                handler: function (val) {
+                    this.$store.commit("setSearchFilter", val)
+                    let that = this
+                    clearTimeout(this._timerId)
+                    this._timerId = setTimeout(function(){
+                        that.fetchControlTowerList()
+                    }, 1000);
+                }
+            },
             'filter.delivery_date.input': { // for filter by date input format
                 handler: function (val) {
                     if (val) {
