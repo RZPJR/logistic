@@ -353,13 +353,13 @@
                                     :icon-size="[25, 40]"
                                     :icon-anchor="map_options.static_anchor"
                                     :icon-url="carIcon"
-                                    v-if="item.emergency_mode == 2 && item.vehicle_profile_type === 'car' && item.latitude && item.longitude"
+                                    v-if="item.emergency_mode == 0 && item.vehicle_profile_type === 'car' && item.latitude && item.longitude"
                                 ></l-icon>
                                 <l-icon
                                     :icon-size="[30, 40]"
                                     :icon-anchor="map_options.static_anchor"
                                     :icon-url="bikeIcon"
-                                    v-if="item.emergency_mode == 2 && item.vehicle_profile_type === 'bike' && item.latitude && item.longitude"
+                                    v-if="item.emergency_mode == 0 && item.vehicle_profile_type === 'bike' && item.latitude && item.longitude"
                                 ></l-icon>
                                 <l-popup
                                     v-if="item.latitude && item.longitude"
