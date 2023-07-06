@@ -749,7 +749,7 @@
                             <DetailRowNew :name="'Money Received'" :value="data.detail_so.money_received ? 'Rp. ' + formatPrice(data.detail_so.money_received) : '-'" />
                         </v-col>
                         <v-col cols="12" md="4" class="-mt24">
-                            <DetailRowNew :name="'Total Invoice'" :value="data.detail_so.sales_order.sales_invoice_total_charge ? 'Rp. ' + formatPrice(data.detail_so.sales_order.sales_invoice_total_charge) : '-'" />
+                            <DetailRowNew :name="'Total Invoice'" :value="data.detail_so.sales_order.sales_invoice ? 'Rp. ' + formatPrice(data.detail_so.sales_order.sales_invoice.total_charge) : '-'" />
                         </v-col>
                         <v-col cols="12" md="4" class="-mt24">
                             <DetailRowNew :name="'Start Time'" :value="data.detail_so.start_time == '0001-01-01T00:00:00Z' ? '-' : formatTime(data.detail_so.start_time)" />
