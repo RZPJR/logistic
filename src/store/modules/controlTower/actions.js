@@ -2,7 +2,7 @@ import Vue from 'vue';
 import http from "../../../services/http";
 
 const actions = {
-    // DRS List (Control Tower) 
+    // DRS List (Control Tower)
     fetchControlTowerList: async ({ state, commit, dispatch }, payload) => {
         commit('setControlTowerList', [])
         commit('setPreloadControlTowerList', true);
