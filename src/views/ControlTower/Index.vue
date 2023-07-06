@@ -353,13 +353,13 @@
                                     :icon-size="[25, 40]"
                                     :icon-anchor="map_options.static_anchor"
                                     :icon-url="carIcon"
-                                    v-if="item.emergency_mode == 2 && item.vehicle_profile_type === 'Car' && item.latitude && item.longitude"
+                                    v-if="item.emergency_mode == 0 && item.vehicle_profile_type === 'car' && item.latitude && item.longitude"
                                 ></l-icon>
                                 <l-icon
                                     :icon-size="[30, 40]"
                                     :icon-anchor="map_options.static_anchor"
                                     :icon-url="bikeIcon"
-                                    v-if="item.emergency_mode == 2 && item.vehicle_profile_type === 'Bike' && item.latitude && item.longitude"
+                                    v-if="item.emergency_mode == 0 && item.vehicle_profile_type === 'bike' && item.latitude && item.longitude"
                                 ></l-icon>
                                 <l-popup
                                     v-if="item.latitude && item.longitude"
@@ -452,7 +452,7 @@
                     this.$store.commit("setVendorFilter", d.id)
                 }
                 this.fetchControlTowerList()
-                // this.fetchCourierList()
+                this.fetchCourierList()
             },
             courierSelected(d) { // select courier
                 this.$store.commit("setCourierFilter", null)
@@ -460,7 +460,7 @@
                     this.$store.commit("setCourierFilter", d.id)
                 }
                 this.fetchControlTowerList()
-                // this.fetchCourierList()
+                this.fetchCourierList()
             },
             siteSelected(d) { // select site
                 this.$store.commit("setWarehouseFilter", null)
@@ -468,10 +468,20 @@
                     this.$store.commit("setWarehouseFilter", d.id)
                 }
                 this.fetchControlTowerList()
-                // this.fetchCourierList()
+                this.fetchCourierList()
             }
         },
         watch: {
+            'filter.search' : {
+                handler: function (val) {
+                    this.$store.commit("setSearchFilter", val)
+                    let that = this
+                    clearTimeout(this._timerId)
+                    this._timerId = setTimeout(function(){
+                        that.fetchControlTowerList()
+                    }, 1000);
+                }
+            },
             'filter.delivery_date.input': { // for filter by date input format
                 handler: function (val) {
                     if (val) {
