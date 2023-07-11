@@ -107,6 +107,7 @@
                         @selected="vendorSelected"
                         :norequired="true"
                         :dense="true"
+                        :site="filter.warehouse_id"
                     ></SelectVendor>
                 </v-col>
                 <v-col cols="12" md="3">
@@ -116,6 +117,7 @@
                         @selected="courierSelected"
                         :norequired="true"
                         :dense="true"
+                        :vendor_id="filter.vendor_id"
                     ></SelectCourier>
                 </v-col>
                 <v-col cols="12" md="3">
@@ -420,7 +422,7 @@
             }),
             dataItems() {
                 return this.control_tower_list.data.items.slice(0, this.filter.show_data)
-            }
+            },
         },
         methods: {
             ...mapActions([
