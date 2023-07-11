@@ -422,7 +422,7 @@
             }),
             dataItems() {
                 return this.control_tower_list.data.items.slice(0, this.filter.show_data)
-            },
+            }
         },
         methods: {
             ...mapActions([
