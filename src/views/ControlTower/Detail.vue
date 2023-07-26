@@ -110,7 +110,7 @@
                     <DetailRowNew :name="'Start Time'" :value="formatTime(data.items.started_at)" />
                 </v-col>
                 <v-col cols="12" md="6" class="-mt24">
-                    <DetailRowNew :name="'Finish Time'" :value="formatTime(data.items.finished_at)" />
+                    <DetailRowNew :name="'Finish Time'" :value="data.items.finished_at == '0001-01-01T00:00:00Z' ? '-' : formatTime(data.items.finished_at)" />
                 </v-col>
             </v-row>
         </div>
@@ -861,7 +861,8 @@
                         </div>
                         <div class="box-end">
                             <v-row>
-                                <v-col cols="12" md="6" class="text-black60 -mt35">
+                                <v-col></v-col>
+                                <v-col class="text-black60">
                                     <div class="row">
                                         <div class="col">Total (Rp)</div>
                                         <div class="col d-flex justify-end text-black">
