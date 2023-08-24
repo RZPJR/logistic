@@ -31,7 +31,9 @@
                         @click="showFilter = !showFilter"
                         v-if="showFilter"
                         class="no-caps fs12"
-                    >Hide<v-icon right>expand_less</v-icon></v-btn>
+                    >
+                        Hide <v-icon right> expand_less </v-icon>
+                    </v-btn>
                     <v-btn 
                         data-unq="controlTower-btn-filterExpandMore"
                         depressed
@@ -39,7 +41,9 @@
                         @click="showFilter = !showFilter"
                         v-else
                         class="no-caps fs12"
-                    >Show<v-icon right>expand_more</v-icon></v-btn>
+                    >
+                        Show <v-icon right> expand_more </v-icon>
+                    </v-btn>
                 </v-col>
             </v-row>
             <v-row v-if="showFilter">
@@ -47,6 +51,7 @@
                     <SelectWarehouse 
                         :data-unq="`controlTower-filter-site`"
                         @selected="siteSelected"
+                        v-model="filter.warehouse_id"
                         :label="'Site'"
                         :norequired="true"
                         :dense="true"
@@ -102,6 +107,7 @@
                         @selected="vendorSelected"
                         :norequired="true"
                         :dense="true"
+                        :site="filter.warehouse_id"
                     ></SelectVendor>
                 </v-col>
                 <v-col cols="12" md="3">
@@ -111,6 +117,7 @@
                         @selected="courierSelected"
                         :norequired="true"
                         :dense="true"
+                        :vendor_id="filter.vendor_id"
                     ></SelectCourier>
                 </v-col>
                 <v-col cols="12" md="3">
@@ -329,42 +336,42 @@
                             :options="map_options.cluster_options"
                         >
                             <l-marker
-                                    v-for="(item, idx) in courier.courier"
-                                    :key="idx"
-                                    :visible="true"
-                                    :draggable="false"
-                                    :lat-lng="[
-                                        item.latitude,
-                                        item.longitude
-                                    ]"
+                                v-for="(item, idx) in courier.courier"
+                                :key="idx"
+                                :visible="true"
+                                :draggable="false"
+                                :lat-lng="[
+                                    item.latitude,
+                                    item.longitude
+                                ]"
+                            >
+                                <l-icon
+                                    :icon-size="[30, 40]"
+                                    :icon-anchor="map_options.static_anchor"
+                                    :icon-url="emergencyIcon"
+                                    v-if="item.emergency_mode == 1 && item.latitude && item.longitude"
+                                ></l-icon>
+                                <l-icon
+                                    :icon-size="[25, 40]"
+                                    :icon-anchor="map_options.static_anchor"
+                                    :icon-url="carIcon"
+                                    v-if="item.emergency_mode == 0 && item.vehicle_profile_type === 'car' && item.latitude && item.longitude"
+                                ></l-icon>
+                                <l-icon
+                                    :icon-size="[30, 40]"
+                                    :icon-anchor="map_options.static_anchor"
+                                    :icon-url="bikeIcon"
+                                    v-if="item.emergency_mode == 0 && item.vehicle_profile_type === 'bike' && item.latitude && item.longitude"
+                                ></l-icon>
+                                <l-popup
+                                    v-if="item.latitude && item.longitude"
                                 >
-                                    <l-icon
-                                        :icon-size="[30, 40]"
-                                        :icon-anchor="map_options.static_anchor"
-                                        :icon-url="emergencyIcon"
-                                        v-if="item.emergency_mode == 1 && item.latitude && item.longitude"
-                                    ></l-icon>
-                                    <l-icon
-                                        :icon-size="[25, 40]"
-                                        :icon-anchor="map_options.static_anchor"
-                                        :icon-url="carIcon"
-                                        v-if="item.emergency_mode == 2 && item.vehicle_profile_type === 'Car' && item.latitude && item.longitude"
-                                    ></l-icon>
-                                    <l-icon
-                                        :icon-size="[30, 40]"
-                                        :icon-anchor="map_options.static_anchor"
-                                        :icon-url="bikeIcon"
-                                        v-if="item.emergency_mode == 2 && item.vehicle_profile_type === 'Bike' && item.latitude && item.longitude"
-                                    ></l-icon>
-                                    <l-popup
-                                        v-if="item.latitude && item.longitude"
-                                    >
-                                        {{ item.name }} <br>
-                                        {{ '+62' + item.phone_number }} <br>
-                                        {{ item.license_plate }} <br>
-                                        {{ formatDateTime(item.last_updated) }} ({{ formatHumanDiff(item.last_updated) }})
-                                    </l-popup>
-                                </l-marker>
+                                    {{ item.name }} <br>
+                                    {{ '+62' + item.phone_number }} <br>
+                                    {{ item.license_plate }} <br>
+                                    {{ formatDateTime(item.last_updated) }} ({{ formatHumanDiff(item.last_updated) }})
+                                </l-popup>
+                            </l-marker>
                         </v-marker-cluster>
                     </l-map>
                 </v-col>
@@ -390,6 +397,9 @@
             }
         },
         created() {
+            this.$store.commit("setWarehouseFilter", null)
+            this.$store.commit("setVendorFilter", null)
+            this.$store.commit("setCourierFilter", null)
             this.fetchControlTowerList()
             this.getUserPosition()
             this.fetchCourierList()
@@ -439,16 +449,41 @@
                 this.fetchControlTowerList()
             },
             vendorSelected(d) { // select vendor
-                console.log(d,'ini select vendor')
+                this.$store.commit("setVendorFilter", null)
+                if (d) {
+                    this.$store.commit("setVendorFilter", d.id)
+                }
+                this.fetchControlTowerList()
+                this.fetchCourierList()
             },
             courierSelected(d) { // select courier
-                console.log(d,'ini select courier')
+                this.$store.commit("setCourierFilter", null)
+                if (d) {
+                    this.$store.commit("setCourierFilter", d.id)
+                }
+                this.fetchControlTowerList()
+                this.fetchCourierList()
             },
             siteSelected(d) { // select site
-                console.log(d,'ini select area')
+                this.$store.commit("setWarehouseFilter", null)
+                if (d) {
+                    this.$store.commit("setWarehouseFilter", d.id)
+                }
+                this.fetchControlTowerList()
+                this.fetchCourierList()
             }
         },
         watch: {
+            'filter.search' : {
+                handler: function (val) {
+                    this.$store.commit("setSearchFilter", val)
+                    let that = this
+                    clearTimeout(this._timerId)
+                    this._timerId = setTimeout(function(){
+                        that.fetchControlTowerList()
+                    }, 1000);
+                }
+            },
             'filter.delivery_date.input': { // for filter by date input format
                 handler: function (val) {
                     if (val) {
@@ -475,6 +510,15 @@
                 handler: function (val) {
                     if (val) {
                         this.filter.delivery_date.input = this.formatDateRange(val)
+                    }
+                },
+                deep: true
+            },
+            'filter.status': {
+                handler: function (val) {
+                    if(val){
+                        this.$store.commit('setStatusFilter', val)
+                        this.fetchControlTowerList()
                     }
                 },
                 deep: true

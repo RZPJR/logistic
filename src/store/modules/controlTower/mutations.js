@@ -16,6 +16,26 @@ const mutations = {
         state.control_tower_list.isLoadingMaps = payload;
         return state;
     },
+    setWarehouseFilter: function(state, payload) { // set warehouse filter Index Control Tower
+        state.control_tower_list.filter.warehouse_id = payload;
+        return state;
+    },
+    setVendorFilter: function(state, payload) { // set vendor filter Index Control Tower
+        state.control_tower_list.filter.vendor_id = payload;
+        return state;
+    },
+    setCourierFilter: function(state, payload) { // set courier filter Index Control Tower
+        state.control_tower_list.filter.courier_id = payload;
+        return state;
+    },
+    setStatusFilter: function(state, payload) { // set status filter Index Control Tower
+        state.control_tower_list.filter.status = payload;
+        return state;
+    },
+    setSearchFilter: function(state, payload) { // set search filter Index Control Tower
+        state.control_tower_list.filter.search = payload;
+        return state;
+    },
     
     // Detail Control Tower
     setControlTowerDetail: function(state, payload) { // get data Detail Control Tower
@@ -74,11 +94,15 @@ const mutations = {
         state.detail_control_tower.filter.disabled_next = payload.disabled_next;
         state.detail_control_tower.filter.disabled_prev = payload.disabled_prev;
     },
-    setPage: function(state, payload) {
+    setPage: function(state, payload) { // set Detail Dialog Page
         state.detail_control_tower.data.detail_so = payload.detail_so;
         state.detail_control_tower.data.delivery_return = payload.delivery_return;
         state.detail_control_tower.data.postponed_history = payload.postponed_history;
         state.detail_control_tower.filter.current_page = payload.current_page;
+    },
+    setLoadingOverlay: function(state, payload) { // set loading overlay
+        state.detail_control_tower.filter.overlay = payload;
+        return state;
     }
 };
 

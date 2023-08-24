@@ -67,16 +67,16 @@
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="12" md="6" class="-mb25">
+                <v-col cols="12" md="6" class="-mb24">
                     <DetailRowNew :name="'Courier'" :value="data.items.courier.name" />
                 </v-col>
-                <v-col cols="12" md="6">
+                <v-col cols="12" md="6" class="-mt12">
                     <v-row class="mb1">
                         <v-col>
-                            <div class="text-black60">Phone Number</div>
+                            <div class="text-black60 mt12">Phone Number</div>
                         </v-col>
                         <v-col>
-                            <div class="d-flex justify-end">
+                            <div class="d-flex justify-end mt12">
                                 <a
                                     v-bind:href="'https://wa.me/' + data.items.courier.courier_phone_number +'?text=%2APesan%20dari%20EdenFarm%20Control%20Tower%3A%2A%0A'"
                                     target="_blank"
@@ -87,7 +87,7 @@
                                     :src="waIcon"
                                     max-height="25"
                                     max-width="25"
-                                    class="ml10"
+                                    class="ml10 mb12"
                                 ></v-img>
                             </div>
                         </v-col>
@@ -110,7 +110,7 @@
                     <DetailRowNew :name="'Start Time'" :value="formatTime(data.items.started_at)" />
                 </v-col>
                 <v-col cols="12" md="6" class="-mt24">
-                    <DetailRowNew :name="'Finish Time'" :value="formatTime(data.items.finished_at)" />
+                    <DetailRowNew :name="'Finish Time'" :value="data.items.finished_at == '0001-01-01T00:00:00Z' ? '-' : formatTime(data.items.finished_at)" />
                 </v-col>
             </v-row>
         </div>
@@ -138,7 +138,7 @@
                     <div class="scroll-list">
                         <div
                             class="d-flex justify-center"
-                            v-if="control_tower_detail.isLoadingData"
+                            v-if="control_tower_detail.isLoadingMaps"
                         >
                             <div class="mt15">
                                 <div class="text-center">
@@ -151,26 +151,27 @@
                             </div>
                         </div>
                         <div class="ma12 wp100" v-else>
+                            <div
+                                class="d-flex justify-center scroll-list fill-height"
+                                v-if="control_tower_detail.error_messages"
+                            >
+                                <div class="mt15">
+                                    <div class="text-center">
+                                        <v-col>
+                                            <div class="-mt24 -ml15 -mr15">
+                                                <div class="text-center bold">No Data Available</div>
+                                            </div>
+                                        </v-col>
+                                    </div>
+                                </div>
+                            </div>
                             <v-row
+                                v-else
                                 v-for="(item, index) in data.data_drs.delivery_run_sheet_item"
                                 :key="index"
                             >
                                 <v-col>
-                                    <div
-                                        class="d-flex justify-center scroll-list fill-height"
-                                        v-if="control_tower_detail.error_messages"
-                                    >
-                                        <div class="mt15">
-                                            <div class="text-center">
-                                                <v-col>
-                                                    <div class="-mt24 -ml15 -mr15">
-                                                        <div class="text-center bold">No Data Available</div>
-                                                    </div>
-                                                </v-col>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="box-col-ep -ml15 mr15 -mb10" v-else>
+                                    <div class="box-col-ep -ml15 mr15 -mb10">
                                         <v-row class="-mr30">
                                             <v-col cols="12" md="6">
                                                 <v-row>
@@ -486,13 +487,13 @@
                                     :icon-size="[30, 40]"
                                     :icon-anchor="map_options.staticAnchor"
                                     :icon-url="carIcon"
-                                    v-if="data.data_drs.courier.emergency_mode == 2 && data.data_drs.courier.vehicle_profile_type === 'Car' && data.data_drs.courier.latitude && data.data_drs.courier.longitude"
+                                    v-if="data.data_drs.courier.emergency_mode == 0 && data.data_drs.courier.vehicle_profile_type === 'car' && data.data_drs.courier.latitude && data.data_drs.courier.longitude"
                                 ></l-icon>
                                 <l-icon
                                     :icon-size="[30, 40]"
                                     :icon-anchor="map_options.staticAnchor"
                                     :icon-url="bikeIcon"
-                                    v-if="data.data_drs.courier.emergency_mode == 2 && data.data_drs.courier.vehicle_profile_type === 'Bike' && data.data_drs.courier.latitude && data.data_drs.courier.longitude"
+                                    v-if="data.data_drs.courier.emergency_mode == 0 && data.data_drs.courier.vehicle_profile_type === 'bike' && data.data_drs.courier.latitude && data.data_drs.courier.longitude"
                                 ></l-icon>
                             </l-marker>
                         </l-map>
@@ -506,6 +507,7 @@
             max-width="470px"
         >
             <v-card class="OpenSans">
+                <LoadingBar :value="filter.overlay" />
                 <v-card-title>
                     <span class="text-title-modal">Cancel Delivery Run Sheet</span>
                 </v-card-title>
@@ -552,6 +554,7 @@
             max-width="470px"
         >
             <v-card class="OpenSans">
+                <LoadingBar :value="filter.overlay" />
                 <v-card-title>
                     <span class="text-title-modal">Cancel Delivery Run Sheet Item</span>
                 </v-card-title>
@@ -698,13 +701,13 @@
                         <v-col cols="12" class="-mt24">
                             <DetailRowNew :name="'Customer'" :value="data.detail_so.sales_order.customer_name"/>
                         </v-col>
-                        <v-col cols="12" md="4" class="-mt24 mb10">
+                        <v-col cols="12" md="4" class="-mt12 mb12">
                             <v-row class="-mb1">
                                 <v-col>
-                                    <div class="text-black60">Phone Number</div>
+                                    <div class="text-black60 -mt12">Phone Number</div>
                                 </v-col>
                                 <v-col>
-                                    <div class="d-flex justify-end">
+                                    <div class="d-flex justify-end -mt12">
                                         <a 
                                             v-bind:href="'https://wa.me/62' + data.detail_so.sales_order.address_phone_number + '?text=EdenFarm%0A%0AHai%2C%20kurir%20anda%20sedang%20dalam%20perjalanan%20untuk%20mengantar%20pesanan%20anda.%20Mohon%20ditunggu%20ya'"
                                             target="_blank"
@@ -712,10 +715,10 @@
                                             +62{{ data.detail_so.sales_order.address_phone_number }}
                                         </a>
                                         <v-img 
-                                            src="/img/whatsapp-icon.svg"
+                                            :src="waIcon"
                                             max-height="25"
                                             max-width="25"
-                                            class="ml10"
+                                            class="ml10 mb12"
                                         ></v-img>
                                     </div>
                                 </v-col>
@@ -746,7 +749,7 @@
                             <DetailRowNew :name="'Money Received'" :value="data.detail_so.money_received ? 'Rp. ' + formatPrice(data.detail_so.money_received) : '-'" />
                         </v-col>
                         <v-col cols="12" md="4" class="-mt24">
-                            <DetailRowNew :name="'Total Invoice'" :value="data.detail_so.sales_order.sales_invoice_total_charge ? 'Rp. ' + formatPrice(data.detail_so.sales_order.sales_invoice_total_charge) : '-'" />
+                            <DetailRowNew :name="'Total Invoice'" :value="data.detail_so.sales_order.sales_invoice ? 'Rp. ' + formatPrice(data.detail_so.sales_order.sales_invoice.total_charge) : '-'" />
                         </v-col>
                         <v-col cols="12" md="4" class="-mt24">
                             <DetailRowNew :name="'Start Time'" :value="data.detail_so.start_time == '0001-01-01T00:00:00Z' ? '-' : formatTime(data.detail_so.start_time)" />
@@ -810,12 +813,15 @@
                                         <td>{{ props.item.started_at == '0001-01-01T00:00:00Z' ? '-' : formatTime(props.item.started_at) }}</td>
                                         <td>{{ props.item.postponed_at == '0001-01-01T00:00:00Z' ? '-' : formatTime(props.item.postponed_at) }}</td>
                                         <td>
-                                            <DisplayPhotoOverlay
-                                                v-if="props.item.postpone_evidence"
-                                                :title="'Postponed Image'"
-                                                :src="props.item.postpone_evidence"
-                                                class="rounded-form-sm"
-                                            />
+                                            <div
+                                                class="my-2"
+                                            >
+                                                <DisplayPhotoOverlay
+                                                    v-if="props.item.postpone_evidence"
+                                                    :title="'Postponed Image'"
+                                                    :src="props.item.postpone_evidence"
+                                                />
+                                            </div>
                                         </td>
                                     </tr>
                                 </template>
@@ -855,7 +861,8 @@
                         </div>
                         <div class="box-end">
                             <v-row>
-                                <v-col cols="12" md="6" class="text-black60 -mt35">
+                                <v-col></v-col>
+                                <v-col class="text-black60">
                                     <div class="row">
                                         <div class="col">Total (Rp)</div>
                                         <div class="col d-flex justify-end text-black">
@@ -969,13 +976,13 @@
                     detail_so: this.data.data_drs.delivery_run_sheet_item.slice(this.filter.show_counted * this.filter.current_page, this.filter.show_counted * this.filter.current_page + this.filter.show_counted)[0],
                     delivery_return: this.data.data_drs.delivery_run_sheet_item.slice(this.filter.show_counted * this.filter.current_page, this.filter.show_counted * this.filter.current_page + this.filter.show_counted)[0].delivery_run_return,
                     postponed_history: this.data.data_drs.delivery_run_sheet_item.slice(this.filter.show_counted * this.filter.current_page, this.filter.show_counted * this.filter.current_page + this.filter.show_counted)[0].postpone_delivery_log,
-                    current_page: this.filter.current_page++
+                    current_page: ++this.filter.current_page
                 })
                 this.checkPage()
             },
             prevPage() { // prev page
                 this.$store.commit("setPage", {
-                    current_page: this.filter.current_page--,
+                    current_page: --this.filter.current_page,
                     postponed_history: this.data.data_drs.delivery_run_sheet_item.slice(this.filter.show_counted * this.filter.current_page - this.filter.show_counted, this.filter.show_counted * this.filter.current_page)[0].postpone_delivery_log,
                     delivery_return: this.data.data_drs.delivery_run_sheet_item.slice(this.filter.show_counted * this.filter.current_page - this.filter.show_counted, this.filter.show_counted * this.filter.current_page)[0].delivery_run_return,
                     detail_so: this.data.data_drs.delivery_run_sheet_item.slice(this.filter.show_counted * this.filter.current_page - this.filter.show_counted, this.filter.show_counted * this.filter.current_page)[0]

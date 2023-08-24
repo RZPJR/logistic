@@ -6,10 +6,10 @@ const state = {
     filter: {
         search: '',
         filter: false,
-        warehouse_id: '',
-        vendor: null,
-        courier: null,
-        status: 2.1,
+        warehouse_id: null,
+        vendor_id: null,
+        courier_id: null,
+        status: '2,1',
         statuses: [
             {
                 text: 'All Status',
@@ -17,7 +17,7 @@ const state = {
             },
             {
                 text: 'On Progress',
-                value: 2.1
+                value: '2,1'
             },
             {
                 text: 'Finished',
@@ -97,6 +97,7 @@ const state = {
         cancel_bulk_dialog: false,
         overlay: false,
         detail_dialog: false,
+        overlay: false,
     },
     map_options: {
         user_location: {
